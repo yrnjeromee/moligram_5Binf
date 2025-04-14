@@ -59,7 +59,7 @@
           <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="#infrastruttura_tecnica_architettura_generale">Architettura Generale</a></li>
             <li class="nav-item"><a class="nav-link" href="#infrastruttura_tecnica_ambienti_previsti">Ambienti Previsti</a></li>
-            <li class="nav-item"><a class="nav-link" href="#infrastruttura_tecnica_sicurezza">Sicurezz</a></li>
+            <li class="nav-item"><a class="nav-link" href="#infrastruttura_tecnica_sicurezza">Sicurezza</a></li>
             <li class="nav-item"><a class="nav-link" href="#infrastruttura_tecnica_cloud_hosting">Cloud / Hosting</a></li>
             <li class="nav-item"><a class="nav-link" href="#infrastruttura_tecnica_ci_cd">CI/CD e Deployment</a></li>
             <li class="nav-item"><a class="nav-link" href="#infrastruttura_tecnica_scalabilita_monitoraggio">Scalabilità e Monitoraggio</a></li>
@@ -175,6 +175,116 @@
         <!-- qui -->
         <section id="Infrastruttura_tecnica">
           <h2>Infrastruttura Tecnica</h2>
+        </section>
+
+        <section id="infrastruttura_tecnica_architettura_generale">
+          <h2>Architettura Generale</h2>
+          <p class="lead">✅ Architettura a 3 livelli:
+            Frontend: interfaccia utente (React / Vue / Angular)
+            
+            Backend: API REST/GraphQL per gestire utenti, messaggi, immagini
+            
+            Database: storage dati utenti e riferimenti ai file media
+            
+            Storage: sistema file (es. S3) per immagini
+            
+            Realtime: WebSocket o libreria tipo Socket.io per aggiornamento in tempo reale
+            
+            🔧 Esempio di stack:
+            Frontend: React + TailwindCSS
+            
+            Backend: Node.js + Express
+            
+            Realtime: Socket.io
+            
+            Database: PostgreSQL o MongoDB
+            
+            Storage immagini: Amazon S3 (o Firebase Storage)
+            
+            Hosting: AWS / Vercel / Heroku (dipende da budget e requisiti)
+            
+          </p>
+        </section>
+
+        <section id="infrastruttura_tecnica_ambienti_previsti">
+          <h2>Ambineti Previsti</h2>
+          <p class="lead">Dev: per sviluppo e testing locale
+
+            Test / QA: per validazione interna
+            
+            Produzione: per rilascio pubblico
+            </p>
+        </section>
+
+        <section id="infrastruttura_tecnica_sicurezza">
+          <h2>Sicurezza</h2>
+          <p class="lead">HTTPS obbligatorio (certificato SSL)
+
+            Crittografia JWT per autenticazione
+            
+            Rate-limiting su API per evitare abusi
+            
+            Validazione lato server di immagini (es. dimensioni, formato)
+            
+            Policy di accesso ai bucket di storage (es. solo immagini pubblicate)
+            
+            </p>
+        </section>
+
+        <section id="infrastruttura_tecnica_cloud_hosting">
+          <h2>Cloud / Hosting</h2>
+          <p class="lead">Frontend: Vercel o Netlify (per React)
+
+            Backend: AWS (EC2 / Lambda), oppure Railway, Heroku
+            
+            DB: RDS (PostgreSQL) o MongoDB Atlas
+            
+            Storage immagini: Amazon S3 o Cloudinary
+            
+            Realtime: Socket.io con Redis (se si scala orizzontalmente)
+          </p>
+        </section>
+
+        <section id="infrastruttura_tecnica_ci_cd">
+          <h2>CI/CD e Deployment</h2>
+          <p class="lead">CI/CD con GitHub Actions o GitLab CI
+
+            Build automatica e deploy su ambienti Dev/Test/Prod
+            
+            Rollback facile (deploy versionato)            
+          </p>
+        </section>
+
+        <hr class="divider">
+
+        <section id="infrastruttura_tecnica_scalabilita_monitoraggio">
+          <h2>Scalabilità e Monitoraggio</h2>
+          <p class="lead">Bilanciamento carico per backend (Load balancer o servizi gestiti)
+
+            CDN per immagini (es. CloudFront o Cloudflare)
+            
+            Logging centralizzato (es. Loggly, Datadog, ELK)
+            
+            Monitoraggio risorse e uptime (es. UptimeRobot, Grafana, Prometheus)                        
+          </p>
+        </section>
+
+        <section id="infrastruttura_tecnica_standard_conformita">
+          <h2>Standard e Conformità</h2>
+          <p class="lead">Conformità al GDPR per la gestione dei dati personali
+
+            Cookie banner e gestione consensi (se tracking presente)                                
+          </p>
+        </section>
+
+        <section id="infrastruttura_tecnica_manuntenzione_supporto">
+          <h2>Manutenzione e Supporto</h2>
+          <p class="lead">Backup giornalieri del DB
+
+            Storage S3 con versioning e ciclo di vita
+            
+            Alert automatici per errori/timeout                               
+          </p>
         </section>
 
         <hr class="divider">
