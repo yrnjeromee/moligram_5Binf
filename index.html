@@ -180,29 +180,25 @@
         <section id="infrastruttura_tecnica_architettura_generale">
           <h2>Architettura Generale</h2>
           <p class="lead">Architettura a 3 livelli:
-            Frontend: interfaccia utente (React / Vue / Angular)
+            Frontend: interfaccia utente
             
             Backend: API REST/GraphQL per gestire utenti, messaggi, immagini
             
             Database: storage dati utenti e riferimenti ai file media
             
-            Storage: sistema file (es. S3) per immagini
+            Storage: sistema file per immagini
             
             Realtime: WebSocket o libreria tipo Socket.io per aggiornamento in tempo reale
             
             Esempio di stack:
-            Frontend: React + TailwindCSS
+            Frontend: js + CSS
             
             Backend: Node.js + Express
             
             Realtime: Socket.io
             
-            Database: PostgreSQL o MongoDB
-            
-            Storage immagini: Amazon S3 (o Firebase Storage)
-            
-            Hosting: AWS / Vercel / Heroku (dipende da budget e requisiti)
-            
+            Database: MySQL
+                                    
           </p>
         </section>
 
@@ -218,9 +214,7 @@
 
         <section id="infrastruttura_tecnica_sicurezza">
           <h2>Sicurezza</h2>
-          <p class="lead">HTTPS obbligatorio (certificato SSL)
-
-            Crittografia JWT per autenticazione
+          <p class="lead">HTTPS (certificato SSL)
             
             Rate-limiting su API per evitare abusi
             
@@ -231,49 +225,25 @@
             </p>
         </section>
 
-        <section id="infrastruttura_tecnica_cloud_hosting">
-          <h2>Cloud / Hosting</h2>
-          <p class="lead">Frontend: Vercel o Netlify (per React)
-
-            Backend: AWS (EC2 / Lambda), oppure Railway, Heroku
-            
-            DB: RDS (PostgreSQL) o MongoDB Atlas
-            
-            Storage immagini: Amazon S3 o Cloudinary
-            
-            Realtime: Socket.io con Redis (se si scala orizzontalmente)
-          </p>
-        </section>
 
         <section id="infrastruttura_tecnica_ci_cd">
           <h2>CI/CD e Deployment</h2>
-          <p class="lead">CI/CD con GitHub Actions o GitLab CI
+          <p class="lead">CI/CD con GitHub
 
             Build automatica e deploy su ambienti Dev/Test/Prod
             
-            Rollback facile (deploy versionato)            
           </p>
         </section>
-
-        <hr class="divider">
 
         <section id="infrastruttura_tecnica_scalabilita_monitoraggio">
           <h2>Scalabilità e Monitoraggio</h2>
-          <p class="lead">Bilanciamento carico per backend (Load balancer o servizi gestiti)
-
-            CDN per immagini (es. CloudFront o Cloudflare)
-            
-            Logging centralizzato (es. Loggly, Datadog, ELK)
-            
-            Monitoraggio risorse e uptime (es. UptimeRobot, Grafana, Prometheus)                        
-          </p>
-        </section>
-
-        <section id="infrastruttura_tecnica_standard_conformita">
-          <h2>Standard e Conformità</h2>
-          <p class="lead">Conformità al GDPR per la gestione dei dati personali
-
-            Cookie banner e gestione consensi (se tracking presente)                                
+          <p class="lead">Bilanciamento carico per backend
+            <p class="lead">
+              Bilanciamento del carico per backend<br>
+              Logging centralizzato<br>
+              Monitoraggio risorse (CPU, RAM, traffico)<br>
+              Alerting automatico
+            </p>
           </p>
         </section>
 
@@ -281,8 +251,6 @@
           <h2>Manutenzione e Supporto</h2>
           <p class="lead">Backup giornalieri del DB
 
-            Storage S3 con versioning e ciclo di vita
-            
             Alert automatici per errori/timeout                               
           </p>
         </section>
