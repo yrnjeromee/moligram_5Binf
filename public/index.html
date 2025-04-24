@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap-grid.min.css"/>
+    <link rel="stylesheet" href="../public/style.css"/>
+    <title>Home</title>
+</head>
+
+<body>
+
+    <!-- Pagina HOME -->
+    <div id="home" class="page visible">
+        <div class="container" style="height:100vh">
+            <div class="row" style="height:100%; display:flex">
+                <div>
+                    <h1><strong>MOLIGRAM</strong></h1>
+                    <button class="btn btn-primary">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagina LOGIN -->
+    <div id="login" class="page hidden">
+        <h1 class="titolo">MOLIGRAM</h1>
+        <div class="wrapper">
+            <div class="card-switch">
+                <label class="switch">
+                    <input type="checkbox" class="toggle">
+                    <span class="slider"></span>
+                    <span class="card-side"></span>
+                    <div class="flip-card__inner">
+                        <div class="flip-card__front">
+                            <div class="title">Log in</div>
+                            <form class="flip-card__form" action="">
+                                <input class="flip-card__input" name="email" placeholder="Email" type="email">
+                                <input class="flip-card__input" name="password" placeholder="Password" type="password">
+                                <button class="flip-card__btn">Login!</button>
+                            </form>
+                        </div>
+                        <div class="flip-card__back">
+                            <div class="title">Sign up</div>
+                            <form class="flip-card__form" action="">
+                                <input class="flip-card__input" placeholder="Name" type="name">
+                                <input class="flip-card__input" name="email" placeholder="Email" type="email">
+                                <input class="flip-card__input" name="password" placeholder="Password" type="password">
+                                <button class="flip-card__btn">Confirm!</button>
+                            </form>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script src="./components.js" type="module"></script>
+    <script src="./index.js" type="module"></script>
+
+</body>
+</html>
