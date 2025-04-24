@@ -14,3 +14,17 @@ export const createNavigator = () => {
     window.addEventListener('popstate', render); 
     render();
 };
+
+//Funzioni
+
+const hide = (elements) => {
+    elements.forEach((element) => {
+       element.classList.add("hidden");
+       element.classList.remove("visible");
+    });
+};
+ 
+const show = (element) => {
+    element.classList.add("visible");
+    element.classList.remove("hidden");
+};
