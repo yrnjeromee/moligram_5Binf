@@ -2,7 +2,7 @@ const LoginUsername = document.getElementById("Login-Username");
 const LoginPassword = document.getElementById("Login-Password");
 const LoginButton = document.getElementById("Login-Button");
 const RegisterUsername = document.getElementById("Register-Username");
-const RegisterPassord = document.getElementById("Login-Password");
+const RegisterPassord = document.getElementById("Register-Password");
 const RegisterButton = document.getElementById("Register-Button");
 
 const isLogged = sessionStorage.getItem("Logged") === "true";
