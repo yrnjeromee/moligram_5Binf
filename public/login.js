@@ -19,7 +19,7 @@ const register = (username, password) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "key": myToken
+        "key": loginToken
       },
       body: JSON.stringify({
         username: username,
@@ -40,7 +40,7 @@ const login = (username, password) => {
       method: "POST",
       headers: {
          "content-type": "application/json",
-         "key": myToken
+         "key": loginToken
       },
       body: JSON.stringify({
          username: username,
