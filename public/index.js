@@ -37,6 +37,7 @@ document.getElementById("Login-Button").onclick = () => {
             console.log(result);
             if (result === true) {
                 login.validateLogin();
+                console.log("Accesso riuscito");
             } else {
                 alert("Credenziali errate");
             }
