@@ -5,7 +5,7 @@ export const createNavigator = () => {
  
     const render = () => {
        const url = new URL(document.location.href);
-       const pageName = url.hash.replace("#", "");
+       const pageName = url.hash.replace("#", "") || "login";
        const selected = pages.filter((page) => page.id === pageName)[0] || pages[0];
  
        hide(pages);
