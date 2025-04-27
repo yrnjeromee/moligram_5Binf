@@ -1,19 +1,47 @@
-import { createNavigator} from "./components.js";
+import { createNavigator, createLogin, createRegistrazione } from "./components.js";
 
 const navigator = createNavigator();
+const login = createLogin();
+const registrazione = createRegistrazione();
+
+document.getElementById("Register-Button").onclick = () => {
+    const username = document.getElementById("Register-Username").value;
+    const password = document.getElementById("Register-Password").value;
+    
+    if (username && password) {
+        registrazione.checkRegister(username, password)
+            .then((result) => {
+                console.log("Risultato registrazione:", result);
+                if (result === "Ok") {
+                    registrazione.validateRegister();
+                    alert("Registrazione avvenuta con successo!");
+                } else {
+                    alert("Registrazione fallita. Riprova.");
+                }
+            })
+            .catch((error) => {
+                console.error("Errore nella registrazione:", error);
+                alert("Errore durante la registrazione. Riprova più tardi.");
+            });
+    } else {
+        alert("Compila tutti i campi.");
+    }
+};
+
 
 document.getElementById("Login-Button").onclick = () => {
     const username = document.getElementById("Login-Username").value;
     const password = document.getElementById("Login-Password").value;
-
     if (username && password) {
-        login(username, password).then(() => {
-            window.location.hash = "#home"; // Naviga alla pagina home dopo il login riuscito
-        }).catch((error) => {
-            console.error("Errore durante il login:", error); // Mostra errori nel caso di fallimento
-            alert("Login fallito. Controlla le credenziali.");
-        });
+        login.checkLogin(username, password).then((result) => {
+            console.log(result);
+            if (result === true) {
+                login.validateLogin();
+            } else {
+                alert("Credenziali errate");
+            }
+        }, console.log);
     } else {
-        alert("Compila tutti i campi.");
+      alert("Compila tutti i campi.");
     }
 };
