@@ -1,8 +1,9 @@
-import { createNavigator, createLogin, createRegistrazione } from "./components.js";
+import { createNavigator, createLogin, createRegistrazione, createMiddleware } from "./components.js";
 
 const navigator = createNavigator();
 const login = createLogin();
 const registrazione = createRegistrazione();
+const middleware = createMiddleware();
 
 document.getElementById("Register-Button").onclick = () => {
     const username = document.getElementById("Register-Username").value;
@@ -47,3 +48,7 @@ document.getElementById("Login-Button").onclick = () => {
       alert("Compila tutti i campi.");
     }
 };
+
+middleware.load().then((newData) => {
+    console.log(newData);
+});

@@ -74,8 +74,6 @@ export const createRegistrazione = () => {
     };
 };
 
-
-
 export const createLogin = () => {
     let isLogged = false;
     return {
@@ -108,3 +106,44 @@ export const createLogin = () => {
     }
   return
 };
+
+//Componente Middleware
+export const createMiddleware = () => {
+    return {
+        send: (image) => {
+            return new Promise((resolve, reject) => {
+                fetch("http://localhost:5600/slider/add", {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(image)
+                })
+                    .then((response) => response.json())
+                    .then((json) => {
+                        resolve(json);
+                    })
+            })
+        },
+        load: () => {
+            return new Promise((resolve, reject) => {
+                fetch("http://localhost:5600/slider")
+                    .then((response) => response.json())
+                    .then((json) => {
+                        resolve(json);       
+                    })
+            })
+        },
+        delete: (id) => {
+            return new Promise((resolve, reject) => {
+                fetch(`http://localhost:5600/delete/${id}`, {
+                    method: 'DELETE'                
+                })
+                    .then((response) => response.json())
+                    .then((json) => {
+                        resolve(json);
+                    })
+            })
+        }
+    }
+}
