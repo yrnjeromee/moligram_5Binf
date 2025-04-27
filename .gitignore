@@ -138,3 +138,4 @@ dist
 package-lock.json
 conf.json
 ca.pem
+files
