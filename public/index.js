@@ -52,3 +52,11 @@ document.getElementById("Login-Button").onclick = () => {
 middleware.load().then((newData) => {
     console.log(newData);
 });
+
+document.getElementById("AddPostButton").onclick = () => {
+    window.location.hash = "#insert";
+}
+
+document.getElementById("buttonCancellaFile").onclick = () => {
+    window.location.hash = "#home";
+}

@@ -11,10 +11,14 @@
 <body>
     
     <div id="home" class="page visible">
-        <div class="container" style="height:100vh">
+        <div class="container" style=" height:100vh">
             <div class="row" style="height:100%; display:flex">
                 <div>
                     <h1><strong>MOLIGRAM</strong></h1>
+                </div>
+                <div class="col-8 d-flex align-items-center justify-content-center mh-100">
+                    <div class="image-slider" id="divCarosello"><img alt="IMMAGINE"></div>
+                    <button type="button" class="btn btn-primary" id = "AddPostButton"><strong> + </strong></button>
                 </div>
             </div>
         </div>
@@ -48,6 +52,28 @@
                         </div>
                     </div>
                 </label>
+            </div>
+        </div>
+    </div>
+
+    <div id="insert" class="page hidden">
+        <div style="z-index: 3; position:absolute; top:25%;left: 50%;transform: translate(-50%,0);">
+            <div class="form-container">
+                <h1><b>Add Post</b></h1>
+                <div>
+                    <input class="input-normali" id="inputFile" name="file" type="file" single>
+                </div>
+                <div>
+                    <label for="text">Descrizione: </label>
+                    <input class="input-normali" id = "inputDescrizione" name = "descrizione" type = "text">
+                </div>
+                <div>
+                    <label for="text">Luogo: </label>
+                    <input class="input-normali" id = "inputLuogo" name = "luogo" type = "text">
+                </div>
+                <br>
+                <button type="button" class="button-cancella" id = "buttonCancellaFile">Cancella</button>
+                <button type="button" class="button-conferma"  id = "buttonConfermaFile">Aggiungi</button>
             </div>
         </div>
     </div>

@@ -242,3 +242,28 @@ html {
     color: var(--font-color);
     cursor: pointer;
 }
+
+.input-normali{
+    width:370px;
+    height:30px;
+    font-size:20px;
+    margin-bottom: 20px;
+}
+  
+.button-cancella {
+    background-color: red;
+    width:100px; 
+    height:40px;
+    font-size:20px;
+    float:left;
+    margin-left:10px
+}
+  
+.button-conferma {
+    background-color: rgb(9, 203, 9);
+    height:40px; 
+    width:100px;
+    font-size:20px;
+    float:right;
+    margin-right: 12px;
+}
