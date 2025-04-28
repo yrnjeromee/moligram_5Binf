@@ -64,7 +64,7 @@ const handleSubmit = async (event) => {
         body: body
     };
     try {
-        const res = fetch("http://localhost:5600/slider/add", fetchOptions);
+        const res = await fetch("http://localhost:5600/slider/add", fetchOptions);
         const image = res.json();
         console.log(image);
         window.location.hash = "#home";
