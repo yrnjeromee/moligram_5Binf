@@ -27,14 +27,6 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 
 app.post("/slider/add", (req, res) => {
     upload(req, res, (err) => {
-        if (err) {
-            console.error("Errore durante l'upload:", err);
-            return res.status(500).json({ error: "Errore durante l'upload del file" });
-        }
-        if (!req.file) {
-            console.error("Nessun file ricevuto");
-            return res.status(400).json({ error: "Nessun file ricevuto" });
-        }
         console.log('File caricato:', req.file.filename);
         database.insert({ url: "./files/" + req.file.filename });
         res.json({ url: "./files/" + req.file.filename });
@@ -45,7 +37,6 @@ app.get('/slider',async (req, res) => {
     const list = await database.select();
     res.json(list);    
 })
-
 app.delete('/delete/:id',async (req, res) => {
     const id = req.params.id;
     await database.delete(id)  
