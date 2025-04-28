@@ -147,3 +147,25 @@ export const createMiddleware = () => {
         }
     }
 }
+
+//render
+export const MostraImmagini = (newElement) => {
+    let images = [];
+    const bindingElement = newElement;
+    let displayedImage = 0;
+    return {
+        render: () => {
+            console.log("render");
+            let line = "";
+            images.forEach((immagine) => {
+                line += `<div>`
+                line += `<img src="./../files/${immagine.url}" alt="IMMAGINE" style = "width: 100%">`;
+                line += `</div>`
+            })
+            bindingElement.innerHTML = `<img src="../${images[displayedImage].url}" alt="IMMAGINE" style = "width: 100%">`;
+        },
+        setImages: (newImages) => {
+            images = newImages;
+        }
+    }
+};

@@ -1,23 +1,10 @@
-import { createNavigator, createLogin, createRegistrazione, createMiddleware } from "./components.js";
+import { createNavigator, createLogin, createRegistrazione, createMiddleware, MostraImmagini } from "./components.js";
 
 const navigator = createNavigator();
 const login = createLogin();
 const registrazione = createRegistrazione();
 const middleware = createMiddleware();
-
-const renderSlider = (images) => {
-    const divCarosello = document.getElementById('divCarosello');
-    divCarosello.innerHTML = '';
-    images.forEach((img) => {
-        const imgElement = document.createElement('img');
-        imgElement.src = `http://localhost:5600/files/${img.filename}`;
-        imgElement.alt = img.description || "Immagine caricata";
-        imgElement.style.maxWidth = "100%";
-        imgElement.style.maxHeight = "500px";
-        imgElement.style.margin = "10px";
-        divCarosello.appendChild(imgElement);
-    });
-};
+const immagini = MostraImmagini(document.getElementById("divCarosello"));
 
 document.getElementById("Register-Button").onclick = () => {
     const username = document.getElementById("Register-Username").value;
@@ -55,7 +42,6 @@ document.getElementById("Login-Button").onclick = () => {
                 console.log("Accesso riuscito");
                 middleware.load().then((newData) => {
                     console.log(newData);
-                    renderSlider(newData);
                 });
             } else {
                 alert("Credenziali errate");
@@ -66,10 +52,6 @@ document.getElementById("Login-Button").onclick = () => {
     }
 };
 
-middleware.load().then((newData) => {
-    console.log(newData);
-    renderSlider(newData);
-});
 
 //Upload File
 const handleSubmit = async (event) => {
@@ -82,11 +64,14 @@ const handleSubmit = async (event) => {
         body: body
     };
     try {
-        const res = await fetch("http://localhost:5600/files/add", fetchOptions);
+        const res = await fetch("http://localhost:5600/slider/add", fetchOptions);
         const image = res.json();
+        console.log(image);
         window.location.hash = "#home";
         middleware.load().then((newData) => {
             console.log(newData);
+            immagini.setImages(newData);
+            immagini.render();
         })  
     } catch (e) {
         console.log(e);
