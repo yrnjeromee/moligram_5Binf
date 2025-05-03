@@ -7,11 +7,11 @@ const middleware = createMiddleware();
 const immagini = MostraImmagini(document.getElementById("divCarosello"));
 
 document.getElementById("Register-Button").onclick = () => {
-    const username = document.getElementById("Register-Username").value;
+    const email = document.getElementById("Register-Mail").value;
     const password = document.getElementById("Register-Password").value;
     
-    if (username && password) {
-        registrazione.checkRegister(username, password)
+    if (email && password) {
+        registrazione.checkRegister(email, password)
             .then((result) => {
                 console.log("Risultato registrazione:", result);
                 if (result === "Ok") {
@@ -31,10 +31,10 @@ document.getElementById("Register-Button").onclick = () => {
 };
 
 document.getElementById("Login-Button").onclick = () => {
-    const username = document.getElementById("Login-Username").value;
+    const email = document.getElementById("Login-Mail").value;
     const password = document.getElementById("Login-Password").value;
-    if (username && password) {
-        login.checkLogin(username, password).then((result) => {
+    if (email && password) {
+        login.checkLogin(email, password).then((result) => {
             console.log(result);
             if (result === true) {
                 login.validateLogin();
