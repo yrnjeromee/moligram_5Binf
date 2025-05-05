@@ -35,43 +35,44 @@ export const createRegistrazione = () => {
     let isRegistered = false;
     return {
         checkRegister: (username, password) => {
-            return new Promise((resolve, reject) => {
-                fetch("conf.json")
-                    .then((response) => response.json())
-                    .then((confData) => {
-                        fetch("https://ws.cipiaceinfo.it/credential/register", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                key: confData.loginToken,
-                            },
-                            body: JSON.stringify({ username, password }),
-                        })
-                        .then((response) => {
-                            console.log("Response status:", response.status);
-                            return response.json();
-                        })
-                        .then((result) => {
-                            console.log("Result:", result);
-                            resolve(result.result);
-                        })
-                        .catch((error) => {
-                            console.error("Errore registrazione:", error);
-                            alert("Errore durante la registrazione");
-                            reject(error);
-                        });
-                    })
-                    .catch((error) => {
-                        console.error("Errore nel caricamento di conf.json:", error);
-                        alert("Errore configurazione");
-                        reject(error);
+            const verifica_email = "@itis-molinari.eu";
+            let dominio = "@" + username.split("@")[1];
+
+            if (verifica_email !== dominio) {
+                return Promise.reject("Dominio email non valido");
+            }
+
+            return fetch("conf.json")
+                .then((response) => response.json())
+                .then((confData) => {
+                    return fetch("https://ws.cipiaceinfo.it/credential/register", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            key: confData.loginToken,
+                        },
+                        body: JSON.stringify({ username, password }),
                     });
-            });
+                })
+                .then((response) => {
+                    console.log("Response status:", response.status);
+                    return response.json();
+                })
+                .then((result) => {
+                    console.log("Result:", result);
+                    return result.result;
+                })
+                .catch((error) => {
+                    console.error("Errore registrazione:", error);
+                    alert("Errore durante la registrazione");
+                    throw error;
+                });
         },
+
         validateRegister: () => {
             isRegistered = true;
-        },
-    };
+        },
+    };
 };
 
 export const createLogin = () => {

@@ -1,68 +1,84 @@
 const fs = require("fs");
-const mysql = require("mysql2")
+const mysql = require("mysql2");
 const conf = JSON.parse(fs.readFileSync("./public/conf.json")).dbLogin;
-
 
 conf.ssl = {
     ca: fs.readFileSync(__dirname + '/ca.pem')
-}
+};
 
-//console.log(conf)
-const connection = mysql.createConnection(conf)
-//console.log(connection);
+const connection = mysql.createConnection(conf);
 
-const executeQuery = (query,parametri) => {
+const executeQuery = (query, parametri) => {
     return new Promise((resolve, reject) => {      
-          connection.query(query,parametri, (err, result) => {
-             if (err) {
+        connection.query(query, parametri, (err, result) => {
+            if (err) {
                 console.error(err);
-                reject();     
-             }   
-             console.log('done');
-             resolve(result);         
-       });
-    })
-}
+                reject(err);     
+            } else {
+                console.log('done');
+                resolve(result);    
+            }     
+        });
+    });
+};
 
 const database = {
 
-    createTable: () => {
-        return executeQuery(`
-        CREATE TABLE IF NOT EXISTS slider
-            ( 
-            id INT PRIMARY KEY AUTO_INCREMENT,
-            url VARCHAR(255) NOT NULL
-            )`);      
+    createTables: () => {
+        const createPosts = `
+            CREATE TABLE IF NOT EXISTS posts (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                url VARCHAR(255) NOT NULL,
+                descrizione TEXT,
+                luogo VARCHAR(255)
+            );
+        `;
+
+        const createUtenti = `
+            CREATE TABLE IF NOT EXISTS utenti (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                email VARCHAR(255) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                follower INT DEFAULT 0,
+                seguiti INT DEFAULT 0
+            );
+        `;
+
+        return executeQuery(createPosts)
+            .then(() => executeQuery(createUtenti));
     },
 
-    insert: (image) => {
-        const sql = `INSERT INTO slider (url) VALUES (?)`;
-
-        const values = [
-            image.url
-        ];
-
+    insertPost: (post) => {
+        const sql = `INSERT INTO posts (url, descrizione, luogo) VALUES (?, ?, ?)`;
+        const values = [post.url, post.descrizione, post.luogo];
         return executeQuery(sql, values);
     },
 
-    select: () => {
-        const sql = `SELECT id, url FROM slider `;
-        return executeQuery(sql); 
+    insertUtente: (utente) => {
+        const sql = `INSERT INTO utenti (email, password, follower, seguiti) VALUES (?, ?, ?, ?)`;
+        const values = [utente.email, utente.password, utente.follower || 0, utente.seguiti || 0];
+        return executeQuery(sql, values);
     },
 
-    delete: (id) => {
-        const sql = `DELETE FROM slider WHERE id = ?`;
+    selectPosts: () => {
+        const sql = `SELECT id, url, descrizione, luogo FROM posts`;
+        return executeQuery(sql);
+    },
 
-        return new Promise((resolve, reject) => {
-            connection.query(sql, [id], (err, result) => {
-                if (err) {
-                    console.error("Errore:", err);
-                    reject(err);
-                }
-                resolve(console.log("OK"));
-            });
-    });
+    selectUtenti: () => {
+        const sql = `SELECT id, email, follower, seguiti FROM utenti`;
+        return executeQuery(sql);
+    },
+
+    deletePost: (id) => {
+        const sql = `DELETE FROM posts WHERE id = ?`;
+        return executeQuery(sql, [id]);
+    },
+
+    deleteUtente: (id) => {
+        const sql = `DELETE FROM utenti WHERE id = ?`;
+        return executeQuery(sql, [id]);
     }
-}
+};
 
 module.exports = database;
