@@ -66,7 +66,7 @@ const database = {
     },
 
     selectUtenti: () => {
-        const sql = `SELECT id, email, follower, seguiti FROM utenti`;
+        const sql = `SELECT id, email, password, follower, seguiti FROM utenti`;
         return executeQuery(sql);
     },
 

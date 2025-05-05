@@ -8,25 +8,18 @@ const immagini = MostraImmagini(document.getElementById("divCarosello"));
 
 document.getElementById("Register-Button").onclick = () => {
     const email = document.getElementById("Register-Mail").value;
-    const password = document.getElementById("Register-Password").value;
-    
-    if (email && password) {
-        registrazione.checkRegister(email, password)
+    if (email) {
+        registrazione.checkRegister(email)
             .then((result) => {
-                console.log("Risultato registrazione:", result);
-                if (result === "Ok") {
+                if (result.success === "Ok") {
                     registrazione.validateRegister();
-                    alert("Registrazione avvenuta con successo!");
                 } else {
-                    alert("Registrazione fallita. Riprova.");
+                    alert("Registrazione fallita.");
                 }
             })
-            .catch((error) => {
-                console.error("Errore nella registrazione:", error);
-                alert("Errore durante la registrazione. Riprova più tardi.");
-            });
+            .catch(() => alert("Errore durante la registrazione."));
     } else {
-        alert("Compila tutti i campi.");
+        alert("Inserisci l'email.");
     }
 };
 

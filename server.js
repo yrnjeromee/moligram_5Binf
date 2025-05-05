@@ -3,6 +3,8 @@ const http = require('http');
 const path = require('path');
 const multer = require('multer');
 const cors = require("cors");
+const fs = require('fs').promises;
+const nodemailer = require("nodemailer");
 
 const app = express();
 
@@ -21,7 +23,86 @@ const storage = multer.diskStorage({
     }
 });
 
+// Legge la configurazione email da conf.json
+async function getConfiguration() {
+    try {
+        const conf = await fs.readFile(path.join(__dirname, 'public', 'conf.json'), 'utf-8');
+        return JSON.parse(conf);
+    } catch (error) {
+        console.error("Errore durante il caricamento della configurazione:", error);
+    }
+}
+
+// Crea il trasportatore SMTP con credenziali dal file conf.json
+async function create_trasporter() {
+    const conf = await getConfiguration();
+    const transporter = nodemailer.createTransport({
+        host: "smtp.ionos.it",
+        port: 587,
+        secure: false,
+        auth: {
+            user: conf.mail,
+            pass: conf.pass
+        }
+    });
+    return transporter;
+}
+
+// Invia una email al nuovo utente con la password
+const inviaEmail = async (body) => {
+    const transporter = await create_trasporter();
+    const mailOptions = {
+        from: '"dcbps.com" <moligram@dcbps.com>',
+        to: body.email,
+        subject: "La tua nuova password",
+        text: `Ciao ${body.username}!\n\nEcco la tua nuova password: ${body.password}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.error("Errore invio:", error);
+        }
+        console.log("Email inviata:", info.response);
+    });
+};
+
 const upload = multer({ storage: storage }).single('file');
+
+// Endpoint per registrazione
+app.post("/insert", async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ success: false, message: "Email mancante" });
+    }
+
+    const password = Math.random().toString(36).slice(-8);
+
+    try {
+        await database.insertUtente({ email, password });
+        await inviaEmail({ email, password, username: email.split("@")[0] });
+        res.json({ success: "Ok" });
+    } catch (err) {
+        console.error("Errore durante la registrazione:", err);
+        res.status(500).json({ success: false });
+    }
+});
+
+// Endpoint per login
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const utenti = await database.selectUtenti();
+        const user = utenti.find(u => u.email === email && u.password === password);
+        if (user) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false });
+    }
+});
 
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/files", express.static(path.join(__dirname, "files")));
@@ -87,11 +168,22 @@ app.post('/utenti/add', async (req, res) => {
 
     try {
         await database.insertUtente({ email, password, follower, seguiti });
-        res.json({ result: "utente aggiunto" });
+
+        // Invia l'email all'utente
+        await inviaEmail({
+            email: email,
+            username: email, // o un vero username se lo hai
+            password: password
+        });
+
+        res.json({ result: "utente aggiunto e email inviata" });
+
     } catch (err) {
-        res.status(500).json({ error: 'Errore durante l\'aggiunta dell\'utente' });
+        console.error("Errore:", err);
+        res.status(500).json({ error: 'Errore durante l\'aggiunta dell\'utente o invio email' });
     }
 });
+
 
 // Elimina un utente
 app.delete('/delete/utente/:id', async (req, res) => {

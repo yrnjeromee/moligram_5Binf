@@ -29,83 +29,49 @@ const show = (element) => {
     element.classList.remove("hidden");
 };
 
-//Componente Registrazione - Login
-
+//Componente Registrazione
 export const createRegistrazione = () => {
-    let isRegistered = false;
     return {
-        checkRegister: (username, password) => {
-            const verifica_email = "@itis-molinari.eu";
-            let dominio = "@" + username.split("@")[1];
-
-            if (verifica_email !== dominio) {
-                return Promise.reject("Dominio email non valido");
-            }
-
-            return fetch("conf.json")
-                .then((response) => response.json())
-                .then((confData) => {
-                    return fetch("https://ws.cipiaceinfo.it/credential/register", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            key: confData.loginToken,
-                        },
-                        body: JSON.stringify({ username, password }),
-                    });
-                })
-                .then((response) => {
-                    console.log("Response status:", response.status);
-                    return response.json();
-                })
-                .then((result) => {
-                    console.log("Result:", result);
-                    return result.result;
-                })
-                .catch((error) => {
-                    console.error("Errore registrazione:", error);
-                    alert("Errore durante la registrazione");
-                    throw error;
+        async checkRegister(email) {
+            try {
+                const response = await fetch("http://localhost:5600/insert", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email })
                 });
+                return await response.json();
+            } catch (err) {
+                console.error("Errore registrazione:", err);
+                return { success: false };
+            }
         },
-
-        validateRegister: () => {
-            isRegistered = true;
-        },
+        validateRegister() {
+            alert("Controlla la tua email per la password!");
+        }
     };
 };
 
+//Componente Login
 export const createLogin = () => {
-    let isLogged = false;
     return {
-        checkLogin: (username, password) => {
-            return new Promise ((resolve,reject) => {
-                fetch("conf.json").then((response) => response.json()).then((confData) => {
-                    fetch("https://ws.cipiaceinfo.it/credential/login", {
-                        method: "POST",
-                        headers: {
-                        "Content-Type": "application/json",
-                        key: confData.loginToken,
-                        },
-                        body: JSON.stringify({ username, password }),
-                    })
-                    .then((response) => response.json())
-                    .then((result) => {
-                        resolve(result.result);
-                    })
-                    .catch((error) => {
-                        console.error("Errore login:", error);
-                        alert("Errore");
-                        reject (result);
-                    });
-                })
-            });
+        async checkLogin(email, password) {
+            try {
+                const response = await fetch("http://localhost:5600/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+                return data.success;
+            } catch (err) {
+                console.error("Errore login:", err);
+                return false;
+            }
         },
-        validateLogin: () => {
-            isLogged = true;
-        },
-    }
-  return
+        validateLogin() {
+            sessionStorage.setItem("login", "true");
+        }
+    };
 };
 
 //Componente Middleware
