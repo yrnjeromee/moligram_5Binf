@@ -71,8 +71,8 @@ export const createRegistrazione = () => {
 
         validateRegister: () => {
             isRegistered = true;
-        },
-    };
+        },
+    };
 };
 
 export const createLogin = () => {
