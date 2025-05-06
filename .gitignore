@@ -136,6 +136,7 @@ dist
 .pnp.*
 
 package-lock.json
+package.json
 conf.json
 ca.pem
 files
