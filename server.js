@@ -111,35 +111,44 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 app.post("/slider/add", (req, res) => {
     upload(req, res, (err) => {
         if (err) {
+            console.error("Errore nel caricamento del file:", err);
             return res.status(500).json({ error: 'Errore nel caricamento del file' });
         }
 
-        console.log('File caricato:', req.file.filename);
+        if (!req.file) {
+            console.error("File mancante nella richiesta.");
+            return res.status(400).json({ error: 'Nessun file ricevuto' });
+        }
 
-        // Inserisci il post nel database
-        database.insertPost({ 
-            url: "./files/" + req.file.filename, 
-            descrizione: req.body.descrizione || '', 
-            luogo: req.body.luogo || '' 
+        const fileUrl = "http://localhost:5600/files/" + req.file.filename;
+
+        database.insertPost({
+            url: fileUrl,
+            descrizione: req.body.descrizione || '',
+            luogo: req.body.luogo || ''
         })
         .then(() => {
-            res.json({ url: "./files/" + req.file.filename });
+            res.json({ url: fileUrl });
         })
         .catch(err => {
+            console.error("Errore durante l'inserimento del post:", err);
             res.status(500).json({ error: 'Errore durante l\'inserimento del post' });
         });
     });
 });
 
+
+
 // Recupera la lista dei post
-app.get('/slider', async (req, res) => {
-    try {
-        const list = await database.selectPosts();
-        res.json(list);    
-    } catch (err) {
-        res.status(500).json({ error: 'Errore durante il recupero dei post' });
-    }
+app.get("/slider", (req, res) => {
+    database.selectPosts()
+        .then((data) => res.json(data))
+        .catch((err) => {
+            console.error("Errore durante il recupero dei post:", err);
+            res.status(500).json({ error: "Errore durante il recupero dei post" });
+        });
 });
+
 
 // Elimina un post
 app.delete('/delete/post/:id', async (req, res) => {

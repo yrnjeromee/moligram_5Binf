@@ -78,7 +78,7 @@ const database = {
     deleteUtente: (id) => {
         const sql = `DELETE FROM utenti WHERE id = ?`;
         return executeQuery(sql, [id]);
-    }
+    },
 };
 
 module.exports = database;

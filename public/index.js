@@ -57,9 +57,15 @@ const handleSubmit = async (event) => {
         body: body
     };
     try {
-        const res = await fetch("http://localhost:5600/slider/add", fetchOptions);
+        /*const res = await fetch("http://localhost:5600/slider/add", fetchOptions);
         const image = res.json();
-        console.log(image);
+        console.log(image);*/
+
+        const res = await fetch("http://localhost:5600/slider/add", fetchOptions);
+        const image = await res.json(); //aspetta la risposta convertita in JSON
+        console.log("IMAGE:   ",image);
+
+
         window.location.hash = "#home";
         middleware.load().then((newData) => {
             console.log(newData);
@@ -82,3 +88,12 @@ document.getElementById("buttonCancellaFile").onclick = () => {
 }
 
 document.getElementById("buttonConfermaFile").onclick = handleSubmit;
+
+middleware.load().then((data) => {
+    if (Array.isArray(data)) {
+        immagini.setImages(data);
+        immagini.render();
+    } else {
+        console.error("Dati ricevuti non validi:", data);
+    }
+});

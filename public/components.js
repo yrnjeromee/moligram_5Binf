@@ -116,23 +116,23 @@ export const createMiddleware = () => {
 }
 
 //render
-export const MostraImmagini = (newElement) => {
-    let images = [];
-    const bindingElement = newElement;
-    let displayedImage = 0;
+export function MostraImmagini(container) {
+    let immagini = [];
+
     return {
-        render: () => {
-            console.log("render");
-            let line = "";
-            images.forEach((immagine) => {
-                line += `<div>`
-                line += `<img src="./../files/${immagine.url}" alt="IMMAGINE" style = "width: 100%">`;
-                line += `</div>`
-            })
-            bindingElement.innerHTML = `<img src="../${images[displayedImage].url}" alt="IMMAGINE" style = "width: 100%">`;
+        setImages: function (data) {
+            immagini = data;
         },
-        setImages: (newImages) => {
-            images = newImages;
+        render: function () {
+            container.innerHTML = immagini.map(img => `
+                <div class="card m-2" style="width: 18rem;">
+                    <img src="${img.url}" class="card-img-top" alt="${img.descrizione || ""}">
+                    <div class="card-body">
+                        <p class="card-text">${img.descrizione || ""}</p>
+                        <p class="card-text text-muted">${img.luogo || ""}</p>
+                    </div>
+                </div>
+            `).join('');
         }
-    }
-};
+    };
+}
