@@ -111,6 +111,7 @@ app.post("/login", async (req, res) => {
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/files", express.static(path.join(__dirname, "files")));
 
+
 // Aggiungi un post (file)
 app.post("/slider/add", (req, res) => {
     upload(req, res, (err) => {
@@ -124,7 +125,7 @@ app.post("/slider/add", (req, res) => {
             return res.status(400).json({ error: 'Nessun file ricevuto' });
         }
 
-        const fileUrl = "http://localhost:5600/files/" + req.file.filename;
+        const fileUrl = `http://dcbps.com:5600/files/` + req.file.filename;
 
         database.insertPost({
             url: fileUrl,
