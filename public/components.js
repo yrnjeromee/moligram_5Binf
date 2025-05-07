@@ -34,6 +34,11 @@ export const createRegistrazione = () => {
     return {
         async checkRegister(email) {
             try {
+                const dominio = "@" + email.trim().split("@")[1];
+                if (dominio !== "@itis-molinari.eu") {
+                    alert("Registrazione consentita solo con email @itis-molinari.eu");
+                    return { success: false, message: "Dominio email non valido" };
+                }
                 const response = await fetch("http://localhost:5600/insert", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
