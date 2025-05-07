@@ -125,15 +125,15 @@ app.post("/slider/add", (req, res) => {
             return res.status(400).json({ error: 'Nessun file ricevuto' });
         }
 
-        const fileUrl = `http://dcbps.com:5600/files/` + req.file.filename;
+        const fileName = req.file.filename;
 
         database.insertPost({
-            url: fileUrl,
             descrizione: req.body.descrizione || '',
-            luogo: req.body.luogo || ''
+            luogo: req.body.luogo || '',
+            image: fileName
         })
         .then(() => {
-            res.json({ url: fileUrl });
+            res.json({ success: true, image: fileName });
         })
         .catch(err => {
             console.error("Errore durante l'inserimento del post:", err);
@@ -141,6 +141,7 @@ app.post("/slider/add", (req, res) => {
         });
     });
 });
+
 
 
 

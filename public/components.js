@@ -119,23 +119,33 @@ export const createMiddleware = () => {
 }
 
 //render
-export function MostraImmagini(container) {
+export function MostraImmagini(gay) {
     let immagini = [];
+    const container = gay;
 
     return {
         setImages: function (data) {
             immagini = data;
+            console.log(immagini);
         },
         render: function () {
-            container.innerHTML = immagini.map(img => `
-                <div class="card m-2" style="width: 18rem;">
-                    <img src="${img.url}" class="card-img-top" alt="${img.descrizione || ""}">
-                    <div class="card-body">
-                        <p class="card-text">${img.descrizione || ""}</p>
-                        <p class="card-text text-muted">${img.luogo || ""}</p>
+            console.log(immagini);
+            let line = "";
+            line += immagini.map(img => {
+                console.log("aaa ", img.image);
+                return `
+                    <div class="card m-2" style="width: 18rem;">
+                        <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
+                        <div class="card-body">
+                            <p class="card-text">${img.descrizione || ""}</p>
+                            <p class="card-text text-muted">${img.luogo || ""}</p>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+            
+            console.log("line ",line);
+            container.innerHTML = line;
         }
     };
 }
