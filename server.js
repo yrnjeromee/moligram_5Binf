@@ -9,19 +9,23 @@ const nodemailer = require("nodemailer");
 const app = express();
 
 const database = require("./database.js");
-database.createTables(); // Inizializza la creazione delle tabelle
+database.createTables(); //creazione delle tabelle
 
 app.use(cors());
-app.use(express.json()); // Aggiungi il middleware per il parsing del corpo delle richieste (JSON)
+app.use(express.json()); //middleware per il parsing delle richieste
 
-const storage = multer.diskStorage({
-    destination: function (req, file, callback) {
+
+const storage = multer.diskStorage({        //configurazione personalizzata per dire dove e con che nome salvare i file
+    destination: function (req, file, callback) {   //dove
         callback(null, path.join(__dirname, "files"));
     },
     filename: function (req, file, callback) {
-        callback(null, file.originalname);
+        const ext = path.extname(file.originalname);
+        const uniqueName = Date.now() + ext;        //nome diverso per tutti
+        callback(null, uniqueName);
     }
 });
+
 
 // Legge la configurazione email da conf.json
 async function getConfiguration() {

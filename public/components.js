@@ -1,5 +1,4 @@
 //Componente Navigatore
-
 export const createNavigator = () => {
     const pages = Array.from(document.querySelectorAll(".page"));
  
@@ -16,7 +15,6 @@ export const createNavigator = () => {
 };
 
 //Funzioni
-
 const hide = (elements) => {
     elements.forEach((element) => {
        element.classList.add("hidden");
