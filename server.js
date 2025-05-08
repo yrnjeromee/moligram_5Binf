@@ -213,6 +213,6 @@ app.delete('/delete/utente/:id', async (req, res) => {
 
 const server = http.createServer(app);
 
-server.listen(6300, () => {
+server.listen(6000, () => {
     console.log("- server running");
 });
