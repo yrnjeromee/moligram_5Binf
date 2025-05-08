@@ -37,7 +37,7 @@ export const createRegistrazione = () => {
                     alert("Registrazione consentita solo con email @itis-molinari.eu");
                     return { success: false, message: "Dominio email non valido" };
                 }
-                const response = await fetch("http://localhost:5600/insert", {
+                const response = await fetch("http://localhost:6000/insert", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email })
@@ -59,7 +59,7 @@ export const createLogin = () => {
     return {
         async checkLogin(email, password) {
             try {
-                const response = await fetch("http://localhost:5600/login", {
+                const response = await fetch("http://localhost:6000/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
@@ -82,7 +82,7 @@ export const createMiddleware = () => {
     return {
         send: (image) => {
             return new Promise((resolve, reject) => {
-                fetch("http://localhost:5600/slider/add", {
+                fetch("http://localhost:6000/slider/add", {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -97,7 +97,7 @@ export const createMiddleware = () => {
         },
         load: () => {
             return new Promise((resolve, reject) => {
-                fetch("http://localhost:5600/slider")
+                fetch("http://localhost:6000/slider")
                     .then((response) => response.json())
                     .then((json) => {
                         resolve(json);       
@@ -106,7 +106,7 @@ export const createMiddleware = () => {
         },
         delete: (id) => {
             return new Promise((resolve, reject) => {
-                fetch(`http://localhost:5600/delete/${id}`, {
+                fetch(`http://localhost:6000/delete/${id}`, {
                     method: 'DELETE'                
                 })
                     .then((response) => response.json())
