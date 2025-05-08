@@ -61,7 +61,6 @@ const handleSubmit = async (event) => {
         const res = await fetch("https://moligram.dcbps.com/slider/add", {
             method: 'POST',
             body: formData
-            // NON aggiungere headers Content-Type qui!
         });
 
         const image = await res.json();
@@ -91,7 +90,11 @@ document.getElementById("buttonCancellaFile").onclick = () => {
     window.location.hash = "#home";
 }
 
-document.getElementById("buttonConfermaFile").onclick = handleSubmit;////////////////////!!!
+document.getElementById("buttonConfermaFile").onclick = handleSubmit;
+
+document.getElementById("BottoneProfilo").onclick = () => {
+    window.location.hash = "#profilo";
+}
 
 middleware.load().then((data) => {
     if (Array.isArray(data)) {
