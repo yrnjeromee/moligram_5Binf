@@ -119,33 +119,45 @@ export const createMiddleware = () => {
 }
 
 //render
-export function MostraImmagini(e) {
-    let immagini = [];
-    const container = e;
+export function MostraImmagini(container) {
+    let images = [];
 
     return {
-        setImages: function (data) {
-            immagini = data;
-            console.log(immagini);
+        setImages(newImages) {
+            images = newImages;
         },
-        render: function () {
-            console.log(immagini);
-            let line = "";
-            line += immagini.map(img => {
-                console.log("aaa ", img.image);
-                return `
-                    <div class="card m-2" style="width: 18rem;">
-                        <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
-                        <div class="card-body">
-                            <p class="card-text">${img.descrizione || ""}</p>
-                            <p class="card-text text-muted">${img.luogo || ""}</p>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            console.log("line ",line);
-            container.innerHTML = line;
+        render() {
+            container.innerHTML = ""; // Pulisce il contenuto
+
+            images.forEach(img => {
+                const card = document.createElement("div");
+                card.className = "card m-2";
+                card.style.width = "18rem";
+
+                const image = document.createElement("img");
+                image.src = `http://localhost:5600/files/${img.image}`;
+                image.className = "card-img-top";
+                image.alt = img.descrizione || "immagine";
+
+                const body = document.createElement("div");
+                body.className = "card-body";
+
+                const descr = document.createElement("p");
+                descr.className = "card-text";
+                descr.textContent = img.descrizione;
+
+                const luogo = document.createElement("small");
+                luogo.className = "text-muted";
+                luogo.textContent = img.luogo;
+
+                body.appendChild(descr);
+                body.appendChild(luogo);
+                card.appendChild(image);
+                card.appendChild(body);
+
+                container.appendChild(card);
+            });
         }
     };
 }
+
