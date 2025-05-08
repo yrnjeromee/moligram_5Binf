@@ -109,16 +109,21 @@ app.post("/insert", async (req, res) => {
 
 // Endpoint per login
 app.post("/login", async (req, res) => {
-    const { email, password } = req.body;
     try {
+        const { email, password } = req.body;
         const utenti = await database.selectUtenti();
         const user = utenti.find(u => u.email === email && u.password === password);
+
         if (user) {
-            res.json({ success: true });
+            res.json({ 
+                success: true, 
+                id_utente: user.id  // <-- Aggiunto ID utente nella risposta
+            });
         } else {
             res.json({ success: false });
         }
     } catch (err) {
+        console.error("Errore login:", err);
         res.status(500).json({ success: false });
     }
 });
@@ -130,31 +135,33 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 // Aggiungi un post (file)
 app.post("/slider/add", upload.single("file"), async (req, res) => {
     try {
-        console.log("==== RICHIESTA /slider/add ====");
-        console.log("BODY:", req.body);
-        console.log("FILE:", req.file);
-
-        const file = req.file;
-
-        if (!file) {
+        // MODIFICATO: Ricezione dati dall'URL-encoded form
+        const { descrizione, luogo, id_utente } = req.body;
+        
+        if (!req.file) {
             return res.status(400).json({ error: "Nessun file ricevuto" });
         }
 
-        const imageName = file.filename;
-        const descrizione = req.body.descrizione || "";
-        const luogo = req.body.luogo || "";
+        // MODIFICATO: Aggiunto controllo ID utente
+        if (!id_utente || isNaN(id_utente)) {
+            return res.status(400).json({ error: "ID utente non valido" });
+        }
 
         await database.insertPost({
-            image: imageName,
-            descrizione: descrizione,
-            luogo: luogo
+            image: req.file.filename,
+            descrizione: descrizione || "",
+            luogo: luogo || "",
+            id_utente: parseInt(id_utente)
         });
 
-        res.status(200).json({ success: true, image: imageName });
+        res.json({ 
+            success: true, 
+            image: req.file.filename 
+        });
 
     } catch (err) {
-        console.error("❌ Errore nel caricamento del file:", err);
-        res.status(500).json({ error: "Errore interno durante il caricamento del file" });
+        console.error("Errore upload:", err);
+        res.status(500).json({ error: "Errore interno" });
     }
 });
 
@@ -193,6 +200,17 @@ app.get('/utenti', async (req, res) => {
         res.json(utenti);    
     } catch (err) {
         res.status(500).json({ error: 'Errore durante il recupero degli utenti' });
+    }
+});
+
+//Post per utente specifico
+app.get("/posts/utente/:id_utente", async (req, res) => {
+    try {
+        const posts = await database.selectPostsByUser(req.params.id_utente);
+        res.json(posts);
+    } catch (err) {
+        console.error("Errore recupero post utente:", err);
+        res.status(500).json({ error: 'Errore recupero post' });
     }
 });
 

@@ -5,6 +5,7 @@ const login = createLogin();
 const registrazione = createRegistrazione();
 const middleware = createMiddleware();
 const immagini = MostraImmagini(document.getElementById("divCarosello"));
+const immaginiProfilo = MostraImmagini(document.getElementById("divProfilo"));
 
 document.getElementById("Register-Button").onclick = () => {
     const email = document.getElementById("Register-Mail").value;
@@ -26,22 +27,29 @@ document.getElementById("Register-Button").onclick = () => {
 document.getElementById("Login-Button").onclick = () => {
     const email = document.getElementById("Login-Mail").value;
     const password = document.getElementById("Login-Password").value;
+    
     if (email && password) {
-        login.checkLogin(email, password).then((result) => {
-            console.log(result);
-            if (result === true) {
-                login.validateLogin();
-                window.location.hash = "#home";
-                console.log("Accesso riuscito");
-                middleware.load().then((newData) => {
-                    console.log(newData);
-                });
-            } else {
-                alert("Credenziali errate");
-            }
-        }, console.log);
+        login.checkLogin(email, password)
+            .then((result) => {
+                if (result.success) {
+                    // Salva l'ID utente in sessionStorage
+                    sessionStorage.setItem("id_utente", result.id_utente);
+                    sessionStorage.setItem("login", "true");
+                    
+                    // Carica i post iniziali
+                    middleware.load().then((newData) => {
+                        immagini.setImages(newData);
+                        immagini.render();
+                    });
+                    
+                    window.location.hash = "#home";
+                } else {
+                    alert("Credenziali errate");
+                }
+            })
+            .catch(console.error);
     } else {
-      alert("Compila tutti i campi.");
+        alert("Compila tutti i campi.");
     }
 };
 
@@ -51,11 +59,13 @@ const handleSubmit = async (event) => {
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
+    const userId = sessionStorage.getItem("id_utente");
 
     const formData = new FormData();
     formData.append("file", inputFile.files[0]);
     formData.append("descrizione", descrizione);
     formData.append("luogo", luogo);
+    formData.append("id_utente", userId);
 
     try {
         const res = await fetch("https://moligram.dcbps.com/slider/add", {
@@ -64,20 +74,17 @@ const handleSubmit = async (event) => {
         });
 
         const image = await res.json();
-        console.log("IMAGE: ", image);
 
         if (image.success) {
             window.location.hash = "#home";
+            // Ricarica entrambi gli slider
             middleware.load().then((newData) => {
                 immagini.setImages(newData);
                 immagini.render();
             });
-        } else {
-            console.error("Errore dal server:", image.error);
         }
-
     } catch (e) {
-        console.error("Errore nella richiesta:", e);
+        console.error("Errore:", e);
     }
 };
 
@@ -93,8 +100,18 @@ document.getElementById("buttonCancellaFile").onclick = () => {
 document.getElementById("buttonConfermaFile").onclick = handleSubmit;
 
 document.getElementById("BottoneProfilo").onclick = () => {
+    const userId = sessionStorage.getItem("id_utente");
     window.location.hash = "#profilo";
-}
+
+    // Carica solo i post dell'utente
+    fetch(`https://moligram.dcbps.com/posts/utente/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            immaginiProfilo.setImages(data);
+            immaginiProfilo.render();
+        })
+        .catch(console.error);
+};
 
 middleware.load().then((data) => {
     if (Array.isArray(data)) {

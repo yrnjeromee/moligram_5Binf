@@ -30,8 +30,10 @@ const database = {
             id INT PRIMARY KEY AUTO_INCREMENT,
             image VARCHAR(255) NOT NULL,
             descrizione TEXT,
-            luogo VARCHAR(255)
-           );
+            luogo VARCHAR(255),
+            id_utente INT NOT NULL,
+            FOREIGN KEY (id_utente) REFERENCES utenti(id)
+            );
         `;
 
         const createUtenti = `
@@ -89,7 +91,17 @@ const database = {
     getAllImages: () => {
         const sql = `SELECT image FROM posts`;
         return executeQuery(sql);
-    }
+    },
+
+    selectPostsByUser: (id_utente) => {
+        const sql = `SELECT id, descrizione, luogo, image FROM posts WHERE id_utente = ?`;
+        return executeQuery(sql, [id_utente]).then(results => {
+            return results.map(post => ({
+                ...post,
+                url: `/files/${post.image}`
+            }));
+        });
+    },
     
 };
 
