@@ -119,9 +119,9 @@ export const createMiddleware = () => {
 }
 
 //render
-export function MostraImmagini(gay) {
+export function MostraImmagini(e) {
     let immagini = [];
-    const container = gay;
+    const container = e;
 
     return {
         setImages: function (data) {
