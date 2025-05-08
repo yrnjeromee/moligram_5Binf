@@ -130,12 +130,11 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 // Aggiungi un post (file)
 app.post("/slider/add", upload.single("file"), async (req, res) => {
     try {
+        console.log("FILEEE:  ", req.file);
         const file = req.file;
         if (!file) {
             return res.status(400).json({ error: "Nessun file ricevuto" });
         }
-
-        // Puoi salvare nel DB anche descrizione, luogo ecc. da req.body
 
         const imageName = file.filename;
 
