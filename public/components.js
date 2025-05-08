@@ -136,10 +136,10 @@ export function MostraImmagini(e) {
                 console.log("aaa ", img.image);
                 return `
                     <div class="card m-2" style="width: 18rem;">
+                        <p class="card-text text-muted">${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                             <div class="card-body">
                                 <p class="card-text">${img.descrizione || ""}</p>
-                                <p class="card-text text-muted">${img.luogo || ""}</p>
                             </div>
                         </div>
                     `;

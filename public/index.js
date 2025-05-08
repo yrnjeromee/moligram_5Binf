@@ -49,8 +49,12 @@ document.getElementById("Login-Button").onclick = () => {
 //Upload File
 const handleSubmit = async (event) => {
     const inputFile = document.getElementById('inputFile');
+    const inputDescrizione = document.getElementById('inputDescrizione');
+    const inputLuogo = document.getElementById('inputLuogo');
     const formData = new FormData();
     formData.append("file", inputFile.files[0]);
+    formData.append("descrizione", inputDescrizione.value);
+    formData.append("luogo", inputLuogo.value);
     const body = formData;
     const fetchOptions = {
         method: 'post',
@@ -64,6 +68,8 @@ const handleSubmit = async (event) => {
         const res = await fetch("http://localhost:5600/slider/add", fetchOptions);
         const image = await res.json(); //aspetta la risposta convertita in JSON
         console.log("IMAGE:   ",image);
+        console.log("Descrizione dalla risposta:", image.descrizione);
+        console.log("Luogo dalla risposta:", image.luogo);
 
 
         window.location.hash = "#home";
