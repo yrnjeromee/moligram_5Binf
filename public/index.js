@@ -49,6 +49,8 @@ document.getElementById("Login-Button").onclick = () => {
 //Upload File
 const handleSubmit = async (event) => {
     const inputFile = document.getElementById('inputFile');
+    console.log("FILE SELEZIONATO:", inputFile.files[0]);
+
     const formData = new FormData();
     formData.append("file", inputFile.files[0]);
     const body = formData;
@@ -87,7 +89,7 @@ document.getElementById("buttonCancellaFile").onclick = () => {
     window.location.hash = "#home";
 }
 
-document.getElementById("buttonConfermaFile").onclick = handleSubmit;
+document.getElementById("buttonConfermaFile").onclick = handleSubmit;////////////////////!!!
 
 middleware.load().then((data) => {
     if (Array.isArray(data)) {

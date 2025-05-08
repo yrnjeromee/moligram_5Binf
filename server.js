@@ -128,17 +128,12 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 
 
 // Aggiungi un post (file)
-app.post("/slider/add", (req, res, next) => {
-    upload.single("file")(req, res, (err) => {
-        if (err) {
-            console.error("Errore multer:", err.message, err.stack);
-            return res.status(500).json({ error: "Errore middleware multer" });
-        }
-        next();
-    });
-}, async (req, res) => {
+app.post("/slider/add", upload.single("file"), async (req, res) => {
     try {
-        console.log("FILEEE:", req.file);
+        console.log("==== RICHIESTA /slider/add ====");
+        console.log("BODY:", req.body);
+        console.log("FILE:", req.file);
+
         const file = req.file;
 
         if (!file) {
@@ -146,20 +141,23 @@ app.post("/slider/add", (req, res, next) => {
         }
 
         const imageName = file.filename;
+        const descrizione = req.body.descrizione || "";
+        const luogo = req.body.luogo || "";
 
         await database.insertPost({
             image: imageName,
-            descrizione: "", // puoi cambiare questi valori
-            luogo: ""
+            descrizione: descrizione,
+            luogo: luogo
         });
 
-        res.json({ success: true, image: imageName });
+        res.status(200).json({ success: true, image: imageName });
 
     } catch (err) {
-        console.error("Errore nel caricamento del file:", err.message, err.stack);
-        res.status(500).json({ error: "Errore nel caricamento del file" });
+        console.error("❌ Errore nel caricamento del file:", err);
+        res.status(500).json({ error: "Errore interno durante il caricamento del file" });
     }
 });
+
 
 
 
