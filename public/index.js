@@ -49,37 +49,39 @@ document.getElementById("Login-Button").onclick = () => {
 //Upload File
 const handleSubmit = async (event) => {
     const inputFile = document.getElementById('inputFile');
-    console.log("FILE SELEZIONATO:", inputFile.files[0]);
+    const descrizione = document.getElementById('inputDescrizione').value;
+    const luogo = document.getElementById('inputLuogo').value;
 
     const formData = new FormData();
     formData.append("file", inputFile.files[0]);
-    const body = formData;
-    const fetchOptions = {
-        method: 'post',
-        body: body
-    };
+    formData.append("descrizione", descrizione);
+    formData.append("luogo", luogo);
+
     try {
-        /*const res = await fetch("https://moligram.dcbps.com/slider/add", fetchOptions);
-        const image = res.json();
-        console.log(image);*/
+        const res = await fetch("https://moligram.dcbps.com/slider/add", {
+            method: 'POST',
+            body: formData
+            // NON aggiungere headers Content-Type qui!
+        });
 
-        const res = await fetch("https://moligram.dcbps.com/slider/add", fetchOptions);
-        const image = await res.json(); //aspetta la risposta convertita in JSON
-        console.log("IMAGE:   ",image);
+        const image = await res.json();
+        console.log("IMAGE: ", image);
 
+        if (image.success) {
+            window.location.hash = "#home";
+            middleware.load().then((newData) => {
+                immagini.setImages(newData);
+                immagini.render();
+            });
+        } else {
+            console.error("Errore dal server:", image.error);
+        }
 
-        window.location.hash = "#home";
-        middleware.load().then((newData) => {
-            console.log(newData);
-            immagini.setImages(newData);
-            immagini.render();
-        })  
     } catch (e) {
-        console.log(e);
+        console.error("Errore nella richiesta:", e);
     }
+};
 
-    //middleware.send({url:inputFile.files[0].name}).then(console.log);
-}
 
 document.getElementById("AddPostButton").onclick = () => {
     window.location.hash = "#insert";
