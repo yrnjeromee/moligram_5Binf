@@ -85,6 +85,12 @@ const database = {
         const sql = `DELETE FROM utenti WHERE id = ?`;
         return executeQuery(sql, [id]);
     },
+    
+    getAllImages: () => {
+        const sql = `SELECT image FROM posts`;
+        return executeQuery(sql);
+    }
+    
 };
 
 module.exports = database;
