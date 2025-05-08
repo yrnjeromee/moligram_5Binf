@@ -113,34 +113,31 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 
 
 // Aggiungi un post (file)
-app.post("/slider/add", (req, res) => {
-    upload(req, res, (err) => {
-        if (err) {
-            console.error("Errore nel caricamento del file:", err);
-            return res.status(500).json({ error: 'Errore nel caricamento del file' });
+app.post("/slider/add", upload.single("file"), async (req, res) => {
+    try {
+        const file = req.file;
+        if (!file) {
+            return res.status(400).json({ error: "Nessun file ricevuto" });
         }
 
-        if (!req.file) {
-            console.error("File mancante nella richiesta.");
-            return res.status(400).json({ error: 'Nessun file ricevuto' });
-        }
+        // Puoi salvare nel DB anche descrizione, luogo ecc. da req.body
 
-        const fileName = req.file.filename;
+        const imageName = file.filename;
 
-        database.insertPost({
-            descrizione: req.body.descrizione || '',
-            luogo: req.body.luogo || '',
-            image: fileName
-        })
-        .then(() => {
-            res.json({ success: true, image: fileName });
-        })
-        .catch(err => {
-            console.error("Errore durante l'inserimento del post:", err);
-            res.status(500).json({ error: 'Errore durante l\'inserimento del post' });
+        await database.insertPost({
+            image: imageName,
+            descrizione: "", // oppure req.body.descrizione
+            luogo: ""        // oppure req.body.luogo
         });
-    });
+
+        res.json({ success: true, image: imageName });
+
+    } catch (err) {
+        console.error("Errore nel caricamento del file:", err);
+        res.status(500).json({ error: "Errore nel caricamento del file" });
+    }
 });
+
 
 
 
