@@ -15,16 +15,31 @@ app.use(cors());
 app.use(express.json()); //middleware per il parsing delle richieste
 
 
-const storage = multer.diskStorage({        //configurazione personalizzata per dire dove e con che nome salvare i file
-    destination: function (req, file, callback) {   //dove
-        callback(null, path.join(__dirname, "files"));
+// const storage = multer.diskStorage({        //configurazione personalizzata per dire dove e con che nome salvare i file
+//     destination: function (req, file, callback) {   //dove
+//         callback(null, path.join(__dirname, "files"));
+//     },
+//     filename: function (req, file, callback) {
+//         const ext = path.extname(file.originalname);
+//         const uniqueName = Date.now() + ext;        //nome diverso per tutti
+//         callback(null, uniqueName);
+//     }
+// });
+
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        const uploadPath = path.join(__dirname, 'files');
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
+        }
+        callback(null, uploadPath);
     },
-    filename: function (req, file, callback) {
-        const ext = path.extname(file.originalname);
-        const uniqueName = Date.now() + ext;        //nome diverso per tutti
-        callback(null, uniqueName);
+    filename: (req, file, callback) => {
+        callback(null, Date.now() + "-" + file.originalname);
     }
 });
+
+const upload = multer({ storage });
 
 
 // Legge la configurazione email da conf.json
@@ -70,7 +85,7 @@ const inviaEmail = async (body) => {
     });
 };
 
-const upload = multer({ storage: storage }).single('file');
+// const upload = multer({ storage: storage }).single('file');
 
 // Endpoint per registrazione
 app.post("/insert", async (req, res) => {
@@ -207,6 +222,8 @@ app.delete('/delete/utente/:id', async (req, res) => {
         res.status(500).json({ error: 'Errore durante l\'eliminazione dell\'utente' });
     }
 });
+
+
 
 const server = http.createServer(app);
 
