@@ -101,9 +101,11 @@ app.post("/insert", async (req, res) => {
         await database.insertUtente({ email, password });
         await inviaEmail({ email, password, username: email.split("@")[0] });
         res.json({ success: "Ok" });
+        console.log("okokokokkokokokokokokokokok")
     } catch (err) {
         console.error("Errore durante la registrazione:", err);
         res.status(500).json({ success: false });
+        console.log("gaygaygaygaygaygaygaygaygay")
     }
 });
 
