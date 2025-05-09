@@ -32,6 +32,7 @@ export const createRegistrazione = () => {
     return {
         async checkRegister(email) {
             try {
+                console.log("dentro")
                 const dominio = "@" + email.trim().split("@")[1];
                 if (dominio !== "@itis-molinari.eu") {
                     alert("Registrazione consentita solo con email @itis-molinari.eu");
