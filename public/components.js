@@ -136,6 +136,7 @@ export function MostraImmagini(e) {
                 console.log("aaa ", img.image);
                 return `
                     <div class="card m-2" style="width: 18rem;">
+                    
                         <p class="card-text text-muted">${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                             <div class="card-body">
@@ -143,6 +144,7 @@ export function MostraImmagini(e) {
                             </div>
                         <label class="container-like">
                         <input type="checkbox" />
+
                         <div class="checkmark">
                             <svg viewBox="0 0 256 256">
                             <rect fill="none" height="256" width="256"></rect>
@@ -154,6 +156,7 @@ export function MostraImmagini(e) {
                             ></path>
                             </svg>
                         </div>
+
                         </label>
                     </div>
                     `;
