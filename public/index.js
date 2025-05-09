@@ -9,12 +9,12 @@ const immagini = MostraImmagini(document.getElementById("divCarosello"));
 document.getElementById("Register-Button").onclick = () => {
     const email = document.getElementById("Register-Mail").value;
     if (email) {
-        registrazione.checkRegister(email)
+        registrazione.checkRegister(email)//false
             .then((result) => {
                 if (result.success === "Ok") {
                     registrazione.validateRegister();
                 } else {
-                    alert("Registrazione fallita.");
+                    alert("Registrazione fallita.");//  <----------------  QUI
                 }
             })
             .catch(() => alert("Errore durante la registrazione."));

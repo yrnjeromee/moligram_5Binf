@@ -12,7 +12,15 @@
     box-sizing: border-box;
 }
 
-body, 
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 html {
     margin: 0;
     padding: 0;
@@ -20,8 +28,20 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     background: #f2f2f2;
     font-family: 'Segoe UI', sans-serif;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding-bottom: 80px;
+    margin-top: 80px; /* Evita che la barra si sovrapponga */
 }
 
 .titolo {
@@ -41,6 +61,16 @@ html {
     border-radius: 8px;
 }
 
+.titolo-home {
+    font-size: 60px;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    color: #323232;
+    text-shadow: 1px 1px blue;
+}
 
 .wrapper {
     --input-focus: blue;
@@ -334,4 +364,28 @@ html {
     100% {
       transform: scale(1);
     }
+  }
+
+  .bottom-bar {
+    position: fixed; /* Forza la posizione fissa */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: #f8f9fa;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .bottom-bar .btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }

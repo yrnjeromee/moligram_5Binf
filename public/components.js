@@ -38,7 +38,7 @@ export const createRegistrazione = () => {
                     alert("Registrazione consentita solo con email @itis-molinari.eu");
                     return { success: false, message: "Dominio email non valido" };
                 }
-                const response = await fetch("https://moligram.dcbps.com/insert", {
+                const response = await fetch("/insert", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email })
@@ -137,7 +137,7 @@ export function MostraImmagini(e) {
                 console.log("aaa ", img.image);
                 return `
                     <div class="card m-2" style="width: 18rem;">
-                    
+
                         <p class="card-text text-muted">${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                             <div class="card-body">
