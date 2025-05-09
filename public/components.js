@@ -158,9 +158,9 @@ export function MostraImmagini(e) {
                     </div>
                     `;
                 }).join('');
-                
+
                 console.log("line ",line);
                 container.innerHTML = line;
         }
     };
-}
+};
