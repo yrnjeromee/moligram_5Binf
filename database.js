@@ -27,12 +27,15 @@ const database = {
     createTables: () => {
         const createPosts = `
             CREATE TABLE IF NOT EXISTS posts (
-            id INT PRIMARY KEY AUTO_INCREMENT,
-            image VARCHAR(255) NOT NULL,
-            descrizione TEXT,
-            luogo VARCHAR(255)
-           );
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                image VARCHAR(255) NOT NULL,
+                descrizione TEXT,
+                luogo VARCHAR(255),
+                utente_id INT,
+                FOREIGN KEY (utente_id) REFERENCES utenti(id) ON DELETE SET NULL
+            );
         `;
+
 
         const createUtenti = `
             CREATE TABLE IF NOT EXISTS utenti (
@@ -49,10 +52,10 @@ const database = {
     },
 
     insertPost: (post) => {
-        const sql = `INSERT INTO posts (descrizione, luogo, image) VALUES (?, ?, ?)`;
-        const values = [post.descrizione, post.luogo, post.image];
+        const sql = `INSERT INTO posts (descrizione, luogo, image, utente_id) VALUES (?, ?, ?, ?)`;
+        const values = [post.descrizione, post.luogo, post.image, post.utente_id];
         return executeQuery(sql, values);
-    },
+    },    
     
 
     insertUtente: (utente) => {
