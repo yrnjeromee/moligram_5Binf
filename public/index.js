@@ -54,6 +54,8 @@ const handleSubmit = async (event) => {
 
     // recupera l'email dal localStorage
     const email = localStorage.getItem("email");
+    console.log("Email nel localStorage:", email);
+
 
     // prendi l'utente_id associato all'email
     const resUtenti = await fetch("https://moligram.dcbps.com/utenti");
