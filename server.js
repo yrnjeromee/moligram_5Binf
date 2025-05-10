@@ -133,27 +133,26 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 // Aggiungi un post (file)
 app.post("/slider/add", upload.single("file"), async (req, res) => {
     try {
-        console.log("==== RICHIESTA /slider/add ====");
-        console.log("BODY:", req.body);
-        console.log("FILE:", req.file);
-
         const file = req.file;
 
         if (!file) {
             return res.status(400).json({ error: "Nessun file ricevuto" });
         }
 
-        const imageName = file.filename;
-        const descrizione = req.body.descrizione || "";
-        const luogo = req.body.luogo || "";
+        const { descrizione = "", luogo = "", utente_id } = req.body;
+
+        if (!utente_id) {
+            return res.status(400).json({ error: "utente_id mancante" });
+        }
 
         await database.insertPost({
-            image: imageName,
-            descrizione: descrizione,
-            luogo: luogo
+            image: file.filename,
+            descrizione,
+            luogo,
+            utente_id: parseInt(utente_id)
         });
 
-        res.status(200).json({ success: true, image: imageName });
+        res.status(200).json({ success: true, image: file.filename });
 
     } catch (err) {
         console.error("❌ Errore nel caricamento del file:", err);
