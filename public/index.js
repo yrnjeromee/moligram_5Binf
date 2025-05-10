@@ -61,7 +61,7 @@ const handleSubmit = async (event) => {
     const utente = utenti.find(u => u.email === email);
 
     if (!utente) {
-        console.log("utente   ", u);
+        console.log("utente   ", utente);
         alert("Utente non trovato");
         return;
     }
