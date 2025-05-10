@@ -38,7 +38,7 @@ document.getElementById("Login-Button").onclick = () => {
                 });
                 fetch("https://moligram.dcbps.com/utente", {
                     method: 'POST',
-                    body: formData
+                    body: email
                 }).then(r => r.json).then(utente => console.log(utente));
             } else {
                 alert("Credenziali errate");
