@@ -161,6 +161,13 @@ app.post("/slider/add", upload.single("file"), async (req, res) => {
 });
 
 
+app.get("/getPostUtente", (req,res) => {
+    database.getPostUtente(req.body.id).then((data) => res.json(data))
+        .catch((err) => {
+            console.error("Errore durante il recupero dei post:", err);
+            res.status(500).json({ error: "Errore durante il recupero dei post" });
+        });
+})
 
 
 
@@ -193,6 +200,15 @@ app.get('/utenti', async (req, res) => {
     try {
         const utenti = await database.selectUtenti();
         res.json(utenti);    
+    } catch (err) {
+        res.status(500).json({ error: 'Errore durante il recupero degli utenti' });
+    }
+});
+
+app.get('/utente', async (req, res) => {
+    try {
+        const utente = await database.selectUtente(req.body.email);
+        res.json(utente);    
     } catch (err) {
         res.status(500).json({ error: 'Errore durante il recupero degli utenti' });
     }

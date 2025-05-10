@@ -36,6 +36,10 @@ document.getElementById("Login-Button").onclick = () => {
                 middleware.load().then((newData) => {
                     console.log(newData);
                 });
+                fetch("https://moligram.dcbps.com/utente", {
+                    method: 'POST',
+                    body: formData
+                }).then(r => r.json).then(utente => console.log(utente));
             } else {
                 alert("Credenziali errate");
             }
@@ -51,22 +55,6 @@ const handleSubmit = async (event) => {
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
-
-    // recupera l'email dal localStorage
-    const email = localStorage.getItem("email");
-    console.log("Email nel localStorage:", email);
-
-
-    // prendi l'utente_id associato all'email
-    const resUtenti = await fetch("https://moligram.dcbps.com/utenti");
-    const utenti = await resUtenti.json();
-    const utente = utenti.find(u => u.email === email);
-
-    if (!utente) {
-        console.log("utente   ", utente);
-        alert("Utente non trovato");
-        return;
-    }
 
     const formData = new FormData();
     formData.append("file", inputFile.files[0]);
@@ -112,6 +100,8 @@ document.getElementById("buttonConfermaFile").onclick = handleSubmit;
 
 document.getElementById("BottoneProfilo").onclick = () => {
     window.location.hash = "#profilo";
+
+
 }
 
 middleware.load().then((data) => {

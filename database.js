@@ -79,6 +79,14 @@ const database = {
         return executeQuery(sql);
     },
 
+    selectUtente: (email) => {
+        const sql = `SELECT id, email, password, follower, seguiti 
+                    FROM utenti
+                    WHERE email = ?
+                    `;
+        return executeQuery(sql,[email]);
+    },
+
     deletePost: (id) => {
         const sql = `DELETE FROM posts WHERE id = ?`;
         return executeQuery(sql, [id]);
@@ -92,6 +100,13 @@ const database = {
     getAllImages: () => {
         const sql = `SELECT image FROM posts`;
         return executeQuery(sql);
+    },
+
+    getPostUtente: (id) => {
+        const sql = `SELECT image, descrizione, luogo ,id
+                     FROM Post
+                     WHERE utente_id = ?`;
+        return executeQuery(sql, [id]);
     }
     
 };
