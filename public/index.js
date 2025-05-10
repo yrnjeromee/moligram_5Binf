@@ -52,16 +52,29 @@ const handleSubmit = async (event) => {
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
 
+    // recupera l'email dal localStorage
+    const email = localStorage.getItem("email");
+
+    // prendi l'utente_id associato all'email
+    const resUtenti = await fetch("https://moligram.dcbps.com/utenti");
+    const utenti = await resUtenti.json();
+    const utente = utenti.find(u => u.email === email);
+
+    if (!utente) {
+        alert("Utente non trovato");
+        return;
+    }
+
     const formData = new FormData();
     formData.append("file", inputFile.files[0]);
     formData.append("descrizione", descrizione);
     formData.append("luogo", luogo);
+    formData.append("utente_id", utente.id);
 
     try {
         const res = await fetch("https://moligram.dcbps.com/slider/add", {
             method: 'POST',
             body: formData
-            // NON aggiungere headers Content-Type qui!
         });
 
         const image = await res.json();
@@ -81,6 +94,7 @@ const handleSubmit = async (event) => {
         console.error("Errore nella richiesta:", e);
     }
 };
+
 
 
 document.getElementById("AddPostButton").onclick = () => {
