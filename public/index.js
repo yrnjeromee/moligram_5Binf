@@ -50,7 +50,9 @@ document.getElementById("Login-Button").onclick = () => {
                 .then(data => {
                     console.log("Dati utente ricevuti:", data);
                     utente = data;
-                    window.utente = data;         //globale
+                    console.log("utente:", utente);
+                    window.utente = data;     //globale
+                    console.log("window utente:", window.utente);
                 })
                 .catch(err => console.error("Errore nel recupero utente:", err));
 
