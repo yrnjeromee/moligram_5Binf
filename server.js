@@ -15,17 +15,6 @@ app.use(cors());
 app.use(express.json()); //middleware per il parsing delle richieste
 
 
-// const storage = multer.diskStorage({        //configurazione personalizzata per dire dove e con che nome salvare i file
-//     destination: function (req, file, callback) {   //dove
-//         callback(null, path.join(__dirname, "files"));
-//     },
-//     filename: function (req, file, callback) {
-//         const ext = path.extname(file.originalname);
-//         const uniqueName = Date.now() + ext;        //nome diverso per tutti
-//         callback(null, uniqueName);
-//     }
-// });
-
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         const uploadPath = path.join(__dirname, 'files');
@@ -102,11 +91,9 @@ app.post("/insert", async (req, res) => {
         await database.insertUtente({ email, password });
         await inviaEmail({ email, password, username: email.split("@")[0] });
         res.json({ success: "Ok" });
-        console.log("okokokokkokokokokokokokokok");
     } catch (err) {
         console.error("Errore durante la registrazione:", err);
         res.status(500).json({ success: false });
-        console.log("gaygaygaygaygaygaygaygaygay");
     }
 });
 
@@ -200,10 +187,10 @@ app.get('/utenti', async (req, res) => {
     }
 });
 
-app.get('/utente', async (req, res) => {
+app.get('/utente', async (req, res) => {/*QUI*/
     try {
         const utente = await database.selectUtente(req.body.email);
-        res.json(utente);    
+        res.json(utente);   
     } catch (err) {
         res.status(500).json({ error: 'Errore durante il recupero degli utenti' });
     }
