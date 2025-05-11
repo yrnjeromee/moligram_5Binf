@@ -32,28 +32,43 @@ export const createRegistrazione = () => {
     return {
         async checkRegister(email) {
             try {
-                console.log("dentro")
+                console.log("dentro");
+                
                 const dominio = "@" + email.trim().split("@")[1];
                 if (dominio !== "@itis-molinari.eu") {
                     alert("Registrazione consentita solo con email @itis-molinari.eu");
                     return { success: false, message: "Dominio email non valido" };
                 }
+
                 const response = await fetch("https://moligram.dcbps.com/insert", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email })
                 });
-                return await response.json();
+
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    const json = await response.json();
+                    console.log("Risposta JSON:", json);
+                    return json;
+                } else {
+                    const text = await response.text();
+                    console.error("Risposta non JSON dal server:", text);
+                    return { success: false, message: "Risposta non valida dal server" };
+                }
+
             } catch (err) {
-                console.error("Errore registrazione:", err);
-                return { success: false };
+                console.error("Errore durante la registrazione:", err);
+                return { success: false, message: "Errore nella richiesta" };
             }
         },
+
         validateRegister() {
             alert("Controlla la tua email per la password!");
         }
     };
 };
+
 
 //Componente Login
 export const createLogin = () => {
