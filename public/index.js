@@ -40,7 +40,7 @@ document.getElementById("Login-Button").onclick = () => {
 
 
                 fetch("https://moligram.dcbps.com/utente", {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },

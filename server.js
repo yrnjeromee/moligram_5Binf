@@ -187,12 +187,12 @@ app.get('/utenti', async (req, res) => {
     }
 });
 
-app.get('/utente', async (req, res) => {/*QUI*/
+app.post('/utente', async (req, res) => {
     try {
         const utente = await database.selectUtente(req.body.email);
         res.json(utente);   
     } catch (err) {
-        res.status(500).json({ error: 'Errore durante il recupero degli utenti' });
+        res.status(500).json({ error: 'Errore durante il recupero dell\'utente' });
     }
 });
 
