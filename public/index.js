@@ -5,6 +5,7 @@ const login = createLogin();
 const registrazione = createRegistrazione();
 const middleware = createMiddleware();
 const immagini = MostraImmagini(document.getElementById("divCarosello"));
+let utente = null;
 
 document.getElementById("Register-Button").onclick = () => {
     const email = document.getElementById("Register-Mail").value;
@@ -39,19 +40,19 @@ document.getElementById("Login-Button").onclick = () => {
 
 
                 fetch("https://moligram.dcbps.com/utente", {
-                    method: 'POST',
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ email })
                 })
                 .then(r => r.json())
-                .then(utente => {
-                    console.log("Dati utente ricevuti:", utente);
-                    window.utente = utente;         //globale
+                .then(data => {
+                    console.log("Dati utente ricevuti:", data);
+                    utente = data;
+                    window.utente = data;         //globale
                 })
                 .catch(err => console.error("Errore nel recupero utente:", err));
-
 
 
             } else {
