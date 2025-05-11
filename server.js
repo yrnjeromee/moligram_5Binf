@@ -71,7 +71,7 @@ async function create_trasporter() {
 const inviaEmail = async (body) => {
     const transporter = await create_trasporter();
     const mailOptions = {
-        from: '"dcbps.com" <moligram@dcbps.com>',
+        from: '"moligram.com" <moligram@dcbps.com>',
         to: body.email,
         subject: "La tua nuova password",
         text: `Ciao ${body.username}!\n\nEcco la tua nuova password: ${body.password}`
@@ -131,33 +131,28 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 
 
 // Aggiungi un post (file)
-app.post("/slider/add", upload.single("file"), async (req, res) => {
-    try {
-        const file = req.file;
-
-        if (!file) {
-            return res.status(400).json({ error: "Nessun file ricevuto" });
+app.post("/slider/add", (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Errore nel caricamento del file' });
         }
 
-        const { descrizione = "", luogo = "", utente_id } = req.body;
+        console.log('File caricato:', req.file.filename);
 
-        if (!utente_id) {
-            return res.status(400).json({ error: "utente_id mancante" });
-        }
-
-        await database.insertPost({
-            image: file.filename,
-            descrizione,
-            luogo,
+        // Inserisci il post nel database
+        database.insertPost({ 
+            url: "./files/" + req.file.filename, 
+            descrizione: req.body.descrizione || '', 
+            luogo: req.body.luogo || '',
             utente_id: parseInt(utente_id)
+        })
+        .then(() => {
+            res.json({ url: "./files/" + req.file.filename });
+        })
+        .catch(err => {
+            res.status(500).json({ error: 'Errore durante l\'inserimento del post' });
         });
-
-        res.status(200).json({ success: true, image: file.filename });
-
-    } catch (err) {
-        console.error("❌ Errore nel caricamento del file:", err);
-        res.status(500).json({ error: "Errore interno durante il caricamento del file" });
-    }
+    });
 });
 
 
