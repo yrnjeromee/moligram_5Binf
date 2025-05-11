@@ -121,7 +121,7 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 app.post("/slider/add", (req, res) => {
     upload(req, res, (err) => {
         if (err) {
-            return res.status(500).json({ success: false, error: 'Errore nel caricamento del file' });
+            return res.status(500).json({ error: 'Errore nel caricamento del file' });
         }
 
         console.log('File caricato:', req.file.filename);
@@ -131,13 +131,13 @@ app.post("/slider/add", (req, res) => {
             url: "./files/" + req.file.filename, 
             descrizione: req.body.descrizione || '', 
             luogo: req.body.luogo || '',
-            utente_id: parseInt(req.body.utente_id) // Assicurati che utente_id venga passato correttamente nel corpo della richiesta
+            utente_id: req.body.utente_id
         })
         .then(() => {
-            res.json({ success: true, url: "./files/" + req.file.filename });
+            res.json({ url: "./files/" + req.file.filename });
         })
         .catch(err => {
-            res.status(500).json({ success: false, error: 'Errore durante l\'inserimento del post' });
+            res.status(500).json({ error: 'Errore durante l\'inserimento del post' });
         });
     });
 });
