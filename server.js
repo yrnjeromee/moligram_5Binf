@@ -45,7 +45,7 @@ const upload = multer({ storage });
 // Legge la configurazione email da conf.json
 async function getConfiguration() {
     try {
-        const conf = await fs.readFile(path.join(__dirname, 'public', 'conf.json'), 'utf-8');
+        const conf = await fs.readFile(path.join(__dirname, 'conf.json'), 'utf-8');
         return JSON.parse(conf);
     } catch (error) {
         console.error("Errore durante il caricamento della configurazione:", error);
