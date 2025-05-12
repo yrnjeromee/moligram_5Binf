@@ -81,6 +81,10 @@ const handleSubmit = async (event) => {
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
 
+    console.log("inputFile:   ", inputFile);
+    console.log("descrizione:   ", descrizione);
+    console.log("luogo:   ", luogo);
+
     if (!utente || !utente.id) {
         alert("Utente non disponibile");
         return;
@@ -103,7 +107,7 @@ const handleSubmit = async (event) => {
             body: formData
         });
 
-        const raw = await res.text();  // 👈 ottieni testo grezzo
+        const raw = await res.text();
         console.log("RISPOSTA RAW:", raw);
 
         let image;
