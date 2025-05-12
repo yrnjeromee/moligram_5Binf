@@ -176,13 +176,13 @@ export function MostraImmagini(e) {
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                             <div class="card-body">
                                 <p class="card-text">${img.descrizione || ""}</p>
-                                <button class="btn btn-danger" onclick="eliminaPost(${img.id} data-id="${img.id}")">Elimina</button>
+                                <button class="btn btn-danger" onclick="eliminaPost(${img.id}) data-id="${img.id}")">Elimina</button>
                             </div>
                     </div>
                     `;
                 }).join('');
                 container.innerHTML = line;
-                
+
                 document.querySelectorAll('.btn-elimina').forEach(button => {
                     button.addEventListener('click', () => {
                     const postId = button.dataset.id;
