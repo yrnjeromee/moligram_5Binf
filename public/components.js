@@ -186,7 +186,7 @@ export function MostraImmagini(e) {
                 document.querySelectorAll('.btn-elimina').forEach(button => {
                     button.addEventListener('click', () => {
                     const postId = button.dataset.id;
-                    eliminaPost(postId); // Assicurati che la funzione sia accessibile qui
+                    eliminaPost(postId);
                     });
                 });
         },
