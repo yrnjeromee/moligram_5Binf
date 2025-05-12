@@ -75,14 +75,16 @@ document.getElementById("Login-Button").onclick = () => {
 
 //Upload File
 const handleSubmit = async (event) => {
-    if (!utente || !utente.id) {
-        alert("Utente non disponibile.");
-        return;
-    }
+    console.log("UTENTEEE:   ", utente);
 
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
+
+    if (!utente || !utente.id) {
+        alert("Utente non disponibile");
+        return;
+    }
 
     if (!inputFile.files[0]) {
         alert("Seleziona un file da caricare.");
@@ -94,7 +96,6 @@ const handleSubmit = async (event) => {
     formData.append("descrizione", descrizione);
     formData.append("luogo", luogo);
     formData.append("utente_id", utente.id);
-    console.log("ID  ", utente.id);
 
     try {
         const res = await fetch("https://moligram.dcbps.com/slider/add", {
@@ -102,27 +103,31 @@ const handleSubmit = async (event) => {
             body: formData
         });
 
-        const raw = await res.text();
+        const raw = await res.text();  // 👈 ottieni testo grezzo
         console.log("RISPOSTA RAW:", raw);
 
+        let image;
         try {
-            const json = JSON.parse(raw);
-            if (json.url) {
-                window.location.hash = "#home";
-                const newData = await middleware.load();
-                immagini.setImages(newData);
-                immagini.render();
-            } else {
-                console.error("Errore dal server:", json.error || json);
-            }
+            image = JSON.parse(raw);
         } catch (parseError) {
             console.error("La risposta non è un JSON valido:", parseError);
+            return;
+        }
+
+        if (image.success) {
+            window.location.hash = "#home";
+            const newData = await middleware.load();
+            immagini.setImages(newData);
+            immagini.render();
+        } else {
+            console.error("Errore dal server:", image.error || image);
         }
 
     } catch (e) {
         console.error("Errore nella richiesta:", e);
     }
 };
+
 
 
 
