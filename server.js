@@ -118,29 +118,30 @@ app.use("/files", express.static(path.join(__dirname, "files")));
 
 
 //add post (file)
-app.post("/slider/add", (req, res) => {
-    upload(req, res, (err) => {
-        if (err) {
-            return res.status(500).json({ error: 'Errore nel caricamento del file' });
-        }
+app.post("/slider/add", upload.single("file"), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'Nessun file caricato' });
+    }
 
-        console.log('File caricato:', req.file.filename);
+    console.log('File caricato:', req.file.filename);
+    console.log('Dati extra:', req.body);
 
-        //database
-        database.insertPost({ 
-            image: "./files/" + req.file.filename, 
-            descrizione: req.body.descrizione || '', 
-            luogo: req.body.luogo || '',
-            utente_id: req.body.utente_id
-        })
-        .then(() => {
-            res.json({ url: "./files/" + req.file.filename });
-        })
-        .catch(err => {
-            res.status(500).json({ error: 'Errore durante l\'inserimento del post' });
-        });
+    // Inserisce nel database il nuovo post
+    database.insertPost({ 
+        image: "./files/" + req.file.filename, 
+        descrizione: req.body.descrizione || '', 
+        luogo: req.body.luogo || '',
+        utente_id: req.body.utente_id
+    })
+    .then(() => {
+        res.json({ success: true, url: "./files/" + req.file.filename });
+    })
+    .catch(err => {
+        console.error("Errore inserimento DB:", err);
+        res.status(500).json({ error: 'Errore durante l\'inserimento del post' });
     });
 });
+
 
 
 app.get("/getPostUtente", (req,res) => {
