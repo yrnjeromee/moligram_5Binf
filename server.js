@@ -123,13 +123,13 @@ app.post("/slider/add", upload.single('file'), async (req, res) => {
         console.log('File caricato:', req.file.filename);
 
         await database.insertPost({
-            image: "./files/" + req.file.filename,
+            image: req.file.filename,
             descrizione: req.body.descrizione || '',
             luogo: req.body.luogo || '',
             utente_id: req.body.utente_id
         });
 
-        res.json({ success: true, url: "./files/" + req.file.filename });
+        res.json({ success: true, url: `/files/${req.file.filename}` });
 
     } catch (err) {
         console.error("Errore durante l'inserimento:", err);
