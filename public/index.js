@@ -51,7 +51,7 @@ document.getElementById("Login-Button").onclick = () => {
                 .then(r => r.json())
                 .then(data => {
                     console.log("Dati utente ricevuti:", data);
-                    utente = data;
+                    utente = Array.isArray(data) ? data[0] : data;  //!!!!!!!!!!!!!!!!!!!
                     window.utente = data;     //globale
                     console.log("window utente:", window.utente);
 
@@ -75,17 +75,14 @@ document.getElementById("Login-Button").onclick = () => {
 
 //Upload File
 const handleSubmit = async (event) => {
-    console.log("UTENTEEE:   ", utente);
+    if (!utente || !utente.id) {
+        alert("Utente non disponibile.");
+        return;
+    }
 
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
-    console.log("UTENTE ID  ", utente.id);
-
-    if (!utente || !utente.id) {
-        alert("Utente non disponibile");
-        return;
-    }
 
     if (!inputFile.files[0]) {
         alert("Seleziona un file da caricare.");
@@ -97,6 +94,7 @@ const handleSubmit = async (event) => {
     formData.append("descrizione", descrizione);
     formData.append("luogo", luogo);
     formData.append("utente_id", utente.id);
+    console.log("ID  ", utente.id);
 
     try {
         const res = await fetch("https://moligram.dcbps.com/slider/add", {
@@ -104,20 +102,18 @@ const handleSubmit = async (event) => {
             body: formData
         });
 
-        //risposta raw
-        // const raw = await res.text();
-        // console.log("RISPOSTA RAW:", raw);
+        const raw = await res.text();
+        console.log("RISPOSTA RAW:", raw);
 
-        //passa solo se valido
         try {
-            const image = JSON.parse(raw);
-            if (image.success) {
+            const json = JSON.parse(raw);
+            if (json.url) {
                 window.location.hash = "#home";
                 const newData = await middleware.load();
                 immagini.setImages(newData);
                 immagini.render();
             } else {
-                console.error("Errore dal server:", image.error || image);
+                console.error("Errore dal server:", json.error || json);
             }
         } catch (parseError) {
             console.error("La risposta non è un JSON valido:", parseError);
@@ -127,6 +123,7 @@ const handleSubmit = async (event) => {
         console.error("Errore nella richiesta:", e);
     }
 };
+
 
 
 
