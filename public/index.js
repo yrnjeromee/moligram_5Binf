@@ -147,10 +147,23 @@ document.getElementById("buttonCancellaFile").onclick = () => {
 document.getElementById("buttonConfermaFile").onclick = handleSubmit;
 
 document.getElementById("BottoneProfilo").onclick = () => {
+    if (!utente || !utente.id) {
+      alert("Devi prima accedere");
+      return;
+    }
     window.location.hash = "#profilo";
-
-
-}
+  
+    //Caricamento post singolo utente
+    fetch(`https://moligram.dcbps.com/slider/user/${utente.id}`)
+      .then(r => r.json())
+      .then(data => {
+        console.log("Post del profilo:", data);
+        immagini.setImages(data);
+        immagini.render();
+      })
+      .catch(err => console.error("Errore fetch profilo:", err));
+  };
+  
 
 middleware.load().then((data) => {
     if (Array.isArray(data)) {
