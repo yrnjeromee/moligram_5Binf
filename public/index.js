@@ -136,9 +136,13 @@ const handleSubmit = async (event) => {
 
 
 
-document.getElementById("AddPostButton").onclick = () => {
+document.getElementById("AddPostButtonHome").onclick = () => {
     window.location.hash = "#insert";
-}
+};
+
+document.getElementById("AddPostButtonProfilo").onclick = () => {
+    window.location.hash = "#insert";
+};
 
 document.getElementById("buttonCancellaFile").onclick = () => {
     window.location.hash = "#home";
