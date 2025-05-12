@@ -81,7 +81,7 @@ const handleSubmit = async (event) => {
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
 
-    console.log("inputFile:   ", inputFile);
+    console.log("inputFile:   ", inputFile.files[0]);
     console.log("descrizione:   ", descrizione);
     console.log("luogo:   ", luogo);
 
