@@ -80,9 +80,10 @@ const handleSubmit = async (event) => {
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
+    console.log("UTENTE ID  ", utente.id);
 
     if (!utente || !utente.id) {
-        alert("Utente non disponibile. Riprova a effettuare il login.");
+        alert("Utente non disponibile");
         return;
     }
 
