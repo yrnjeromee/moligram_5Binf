@@ -7,112 +7,169 @@ const middleware = createMiddleware();
 const immagini = MostraImmagini(document.getElementById("divCarosello"));
 let utente = null;
 
-// Registrazione
 document.getElementById("Register-Button").onclick = () => {
-  const email = document.getElementById("Register-Mail").value;
-  if (!email) return alert("Inserisci l'email.");
-
-  registrazione.checkRegister(email)
-    .then(result => {
-      if (result.success === "Ok") registrazione.validateRegister();
-      else alert("Registrazione fallita.");
-    })
-    .catch(() => alert("Errore durante la registrazione."));
+    const email = document.getElementById("Register-Mail").value;
+    if (email) {
+        registrazione.checkRegister(email)//false
+            .then((result) => {
+                if (result.success === "Ok") {
+                    registrazione.validateRegister();
+                } else {
+                    alert("Registrazione fallita.");// <-
+                }
+            })
+            .catch(() => alert("Errore durante la registrazione."));
+    } else {
+        alert("Inserisci l'email.");
+    }
 };
 
-// Login
 document.getElementById("Login-Button").onclick = () => {
-  const email = document.getElementById("Login-Mail").value;
-  const password = document.getElementById("Login-Password").value;
-  if (!email || !password) return alert("Compila tutti i campi.");
+    const email = document.getElementById("Login-Mail").value;
+    const password = document.getElementById("Login-Password").value;
+    if (email && password) {
+        login.checkLogin(email, password).then((result) => {
+            console.log(result);
+            if (result === true) {
+                login.validateLogin();
+                window.location.hash = "#home";
+                console.log("Accesso riuscito");
 
-  login.checkLogin(email, password)
-    .then(valid => {
-      if (!valid) return alert("Credenziali errate");
+                middleware.load().then((newData) => { //            QUI
+                    console.log(newData);
 
-      login.validateLogin();
-      window.location.hash = "#home";
+                });
 
-      // Recupera i dati utente dal server
-      fetch("https://moligram.dcbps.com/utente", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      })
-      .then(r => r.json())
-      .then(data => {
-        utente = Array.isArray(data) ? data[0] : data;
-        window.utente = utente;
-        loadAllPosts();
-      })
-      .catch(err => console.error("Errore nel recupero utente:", err));
-    })
-    .catch(console.error);
+
+                fetch("https://moligram.dcbps.com/utente", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    console.log("Dati utente ricevuti:", data);
+                    utente = Array.isArray(data) ? data[0] : data;  //!!!!!!!!!!!!!!!!!!!
+                    window.utente = data;     //globale
+                    console.log("window utente:", window.utente);
+
+                    // middleware.load().then((newData) => {
+                    // console.log(newData);
+                    // });
+
+                })
+                .catch(err => console.error("Errore nel recupero utente:", err));
+
+
+            } else {
+                alert("Credenziali errate");
+            }
+        }, console.log);
+    } else {
+      alert("Compila tutti i campi.");
+    }
 };
 
-// Funzione per caricare tutti i post
-async function loadAllPosts() {
-  try {
-    const allPosts = await middleware.load();
-    immagini.setImages(allPosts);
-    immagini.render();
-  } catch (err) {
-    console.error("Errore load all posts:", err);
-  }
-}
 
-// Funzione per caricare solo i post dell'utente
-async function loadUserPosts() {
-  if (!utente || !utente.id) return;
-  try {
-    const res = await fetch(`https://moligram.dcbps.com/slider/user/${utente.id}`);
-    const data = await res.json();
-    immagini.setImages(data);
-    immagini.render();
-  } catch (err) {
-    console.error("Errore load user posts:", err);
-  }
-}
+//Upload File
+const handleSubmit = async (event) => {
+    console.log("UTENTEEE:   ", utente);
 
-// Bottone Profilo: mostra solo i tuoi post
-document.getElementById("BottoneProfilo").onclick = () => {
-  if (!utente || !utente.id) return alert("Devi prima accedere");
-  window.location.hash = "#profilo";
-  loadUserPosts();
+    const inputFile = document.getElementById('inputFile');
+    const descrizione = document.getElementById('inputDescrizione').value;
+    const luogo = document.getElementById('inputLuogo').value;
+
+    console.log("inputFile:   ", inputFile.files[0]);
+    console.log("descrizione:   ", descrizione);
+    console.log("luogo:   ", luogo);
+
+    if (!utente || !utente.id) {
+        alert("Utente non disponibile");
+        return;
+    }
+
+    if (!inputFile.files[0]) {
+        alert("Seleziona un file da caricare.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", inputFile.files[0]);
+    formData.append("descrizione", descrizione);
+    formData.append("luogo", luogo);
+    formData.append("utente_id", utente.id);
+
+    try {
+        const res = await fetch("https://moligram.dcbps.com/slider/add", {
+            method: 'POST',
+            body: formData
+        });
+
+        const raw = await res.text();
+        console.log("RISPOSTA RAW:", raw);
+
+        let image;
+        try {
+            image = JSON.parse(raw);
+        } catch (parseError) {
+            console.error("La risposta non è un JSON valido:", parseError);
+            return;
+        }
+
+        if (image.success) {
+            window.location.hash = "#home";
+            const newData = await middleware.load();
+            immagini.setImages(newData);
+            immagini.render();
+        } else {
+            console.error("Errore dal server:", image.error || image);
+        }
+
+    } catch (e) {
+        console.error("Errore nella richiesta:", e);
+    }
 };
 
-// Bottone Aggiungi Post
+
+
+
+
 document.getElementById("AddPostButton").onclick = () => {
-  window.location.hash = "#insert";
-};
+    window.location.hash = "#insert";
+}
 
-// Upload File
-const handleSubmit = async () => {
-  if (!utente || !utente.id) return alert("Utente non disponibile");
-  const inputFile = document.getElementById('inputFile');
-  if (!inputFile.files[0]) return alert("Seleziona un file da caricare.");
-
-  const formData = new FormData();
-  formData.append("file", inputFile.files[0]);
-  formData.append("descrizione", document.getElementById('inputDescrizione').value);
-  formData.append("luogo", document.getElementById('inputLuogo').value);
-  formData.append("utente_id", utente.id);
-
-  try {
-    const res = await fetch("https://moligram.dcbps.com/slider/add", { method: 'POST', body: formData });
-    const image = await res.json();
-    if (!image.success) throw new Error(image.error || 'Upload fallito');
-
-    window.location.hash = "#profilo";
-    await loadUserPosts();
-  } catch (err) {
-    console.error("Errore nella richiesta:", err);
-  }
-};
+document.getElementById("buttonCancellaFile").onclick = () => {
+    window.location.hash = "#home";
+}
 
 document.getElementById("buttonConfermaFile").onclick = handleSubmit;
-// Cancella form
-document.getElementById("buttonCancellaFile").onclick = () => window.location.hash = "#home";
 
-// Avvio iniziale: mostra la home con tutti i post
-loadAllPosts();
+document.getElementById("BottoneProfilo").onclick = () => {
+    if (!utente || !utente.id) {
+      alert("Devi prima accedere");
+      return;
+    }
+    window.location.hash = "#profilo";
+  
+    //Caricamento post singolo utente
+    fetch(`https://moligram.dcbps.com/slider/user/${utente.id}`)
+      .then(r => r.json())
+      .then(data => {
+        console.log("Post del profilo:", data);
+        immagini.setImages(data);
+        immagini.render();
+      })
+      .catch(err => console.error("Errore fetch profilo:", err));
+  };
+  
+
+middleware.load().then((data) => {
+    if (Array.isArray(data)) {
+        immagini.setImages(data);
+        immagini.render();
+    } else {
+        console.error("Dati ricevuti non validi:", data);
+    }
+});
