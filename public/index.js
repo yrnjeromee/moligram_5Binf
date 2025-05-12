@@ -15,7 +15,7 @@ document.getElementById("Register-Button").onclick = () => {
                 if (result.success === "Ok") {
                     registrazione.validateRegister();
                 } else {
-                    alert("Registrazione fallita.");//  <----------------  QUI
+                    alert("Registrazione fallita.");// <-
                 }
             })
             .catch(() => alert("Errore durante la registrazione."));
@@ -34,8 +34,10 @@ document.getElementById("Login-Button").onclick = () => {
                 login.validateLogin();
                 window.location.hash = "#home";
                 console.log("Accesso riuscito");
-                middleware.load().then((newData) => {
+
+                middleware.load().then((newData) => { //            QUI
                     console.log(newData);
+
                 });
 
 
@@ -50,9 +52,13 @@ document.getElementById("Login-Button").onclick = () => {
                 .then(data => {
                     console.log("Dati utente ricevuti:", data);
                     utente = data;
-                    console.log("utente:", utente);
                     window.utente = data;     //globale
                     console.log("window utente:", window.utente);
+
+                    // middleware.load().then((newData) => {
+                    // console.log(newData);
+                    // });
+
                 })
                 .catch(err => console.error("Errore nel recupero utente:", err));
 
@@ -69,6 +75,7 @@ document.getElementById("Login-Button").onclick = () => {
 
 //Upload File
 const handleSubmit = async (event) => {
+    console.log("UTENTEEE:   ", utente);
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
@@ -77,6 +84,7 @@ const handleSubmit = async (event) => {
     formData.append("file", inputFile.files[0]);
     formData.append("descrizione", descrizione);
     formData.append("luogo", luogo);
+
     formData.append("utente_id", utente.id);
 
     try {

@@ -30,7 +30,7 @@ const show = (element) => {
 //Componente Registrazione
 export const createRegistrazione = () => {
     return {
-        async checkRegister(email) {
+        async checkRegister(email) {lo
             try {
                 console.log("dentro")
                 const dominio = "@" + email.trim().split("@")[1];
