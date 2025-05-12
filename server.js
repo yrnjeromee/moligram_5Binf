@@ -16,15 +16,11 @@ app.use(express.json()); //middleware per il parsing delle richieste
 
 
 const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        const uploadPath = path.join(__dirname, 'files');
-        if (!fs.existsSync(uploadPath)) {
-            fs.mkdirSync(uploadPath, { recursive: true });
-        }
-        callback(null, uploadPath);
+    destination: function (req, file, callback) {
+        callback(null, path.join(__dirname, "files"));
     },
-    filename: (req, file, callback) => {
-        callback(null, Date.now() + "-" + file.originalname);
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
     }
 });
 
