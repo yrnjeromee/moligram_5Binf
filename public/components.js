@@ -182,13 +182,6 @@ export function MostraImmagini(e) {
                     `;
                 }).join('');
                 container.innerHTML = line;
-
-                document.querySelectorAll('.btn-elimina').forEach(button => {
-                    button.addEventListener('click', () => {
-                    const postId = button.dataset.id;
-                    eliminaPost(postId);
-                    });
-                });
         },
     };
 };
@@ -200,7 +193,7 @@ export function deletePost(postId) {
         .then(response => response.json())
         .then(result => {
             if (result.result === "ok") {
-                const postElement = document.querySelector(`.post[data-id="${postId}"]`);
+                const postElement = document.querySelector(`.card[data-id="${postId}`);
                 if (postElement) postElement.remove();
             } else {
                 alert("Errore durante l'eliminazione.");

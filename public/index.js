@@ -133,6 +133,12 @@ const handleSubmit = async (event) => {
     }
 };
 
+document.querySelectorAll('.btn-elimina').forEach(button => {
+    button.addEventListener('click', () => {
+        const postId = button.dataset.id;
+        eliminaPost(postId);
+    });
+});
 
 
 
