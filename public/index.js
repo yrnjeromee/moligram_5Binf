@@ -76,15 +76,25 @@ document.getElementById("Login-Button").onclick = () => {
 //Upload File
 const handleSubmit = async (event) => {
     console.log("UTENTEEE:   ", utente);
+
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
+
+    if (!utente || !utente.id) {
+        alert("Utente non disponibile. Riprova a effettuare il login.");
+        return;
+    }
+
+    if (!inputFile.files[0]) {
+        alert("Seleziona un file da caricare.");
+        return;
+    }
 
     const formData = new FormData();
     formData.append("file", inputFile.files[0]);
     formData.append("descrizione", descrizione);
     formData.append("luogo", luogo);
-
     formData.append("utente_id", utente.id);
 
     try {
@@ -93,20 +103,23 @@ const handleSubmit = async (event) => {
             body: formData
         });
 
-        const text = await res.text();
-        console.log("RISPOSTA RAW:", text);
+        //risposta raw
+        // const raw = await res.text();
+        // console.log("RISPOSTA RAW:", raw);
 
-        const image = await res.json();
-        console.log("IMAGE: ", image);
-
-        if (image.success) {
-            window.location.hash = "#home";
-            middleware.load().then((newData) => {
+        //passa solo se valido
+        try {
+            const image = JSON.parse(raw);
+            if (image.success) {
+                window.location.hash = "#home";
+                const newData = await middleware.load();
                 immagini.setImages(newData);
                 immagini.render();
-            });
-        } else {
-            console.error("Errore dal server:", image.error);
+            } else {
+                console.error("Errore dal server:", image.error || image);
+            }
+        } catch (parseError) {
+            console.error("La risposta non è un JSON valido:", parseError);
         }
 
     } catch (e) {
