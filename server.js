@@ -227,6 +227,18 @@ app.delete('/delete/utente/:id', async (req, res) => {
     }
 });
 
+//Post di un utente (sezione profilo)
+app.get("/slider/user/:id", async (req, res) => {
+    const utenteId = req.params.id;
+    try {
+      const posts = await database.selectPostsByUser(utenteId);
+      res.json(posts);
+    } catch (err) {
+      console.error("Errore recupero post utente:", err);
+      res.status(500).json({ error: "Errore recupero post utente" });
+    }
+});
+
 
 
 const server = http.createServer(app);

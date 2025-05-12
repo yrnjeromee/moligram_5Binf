@@ -104,9 +104,24 @@ const database = {
 
     getPostUtente: (id) => {
         const sql = `SELECT image, descrizione, luogo ,id
-                     FROM Post
+                     FROM posts
                      WHERE utente_id = ?`;
         return executeQuery(sql, [id]);
+    },
+
+    selectPostsByUser: (utenteId) => {
+        const sql = `
+            SELECT id, descrizione, luogo, image, utente_id
+            FROM posts
+            WHERE utente_id = ?
+        `;
+        return executeQuery(sql, [utenteId])
+            .then(results =>
+                results.map(post => ({
+                    ...post,
+                    url: `/files/${post.image}`  
+                }))
+            );
     }
     
 };
