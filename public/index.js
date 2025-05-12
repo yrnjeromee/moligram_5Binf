@@ -133,12 +133,6 @@ const handleSubmit = async (event) => {
     }
 };
 
-document.querySelectorAll('.btn-elimina').forEach(button => {
-    button.addEventListener('click', () => {
-        const postId = button.dataset.id;
-        eliminaPost(postId);
-    });
-});
 
 
 
@@ -170,7 +164,7 @@ document.getElementById("BottoneProfilo").onclick = () => {
       .then(data => {
         console.log("Post del profilo:", data);
         immagini_profilo.setImages(data);
-        immagini_profilo.render_profilo();
+        immagini_profilo.render_profilo(eliminaPost);
       })
       .catch(err => console.error("Errore fetch profilo:", err));
   };

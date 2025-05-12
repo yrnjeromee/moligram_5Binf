@@ -166,7 +166,7 @@ export function MostraImmagini(e) {
                 container.innerHTML = line;
         },
 
-        render_profilo: function () {
+        render_profilo: function (eliminaPost) {
             console.log("RENDER PROFILO:    ", immagini);
             let line = "";
             line += immagini.map(img => {
@@ -182,6 +182,13 @@ export function MostraImmagini(e) {
                     `;
                 }).join('');
                 container.innerHTML = line;
+
+                document.querySelectorAll('.btn-elimina').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const postId = button.dataset.id;
+                        eliminaPost(postId);
+                    });
+                });
         },
     };
 };
