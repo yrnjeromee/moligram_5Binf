@@ -5,6 +5,8 @@ const login = createLogin();
 const registrazione = createRegistrazione();
 const middleware = createMiddleware();
 const immagini = MostraImmagini(document.getElementById("divCarosello"));
+const immagini_profilo = MostraImmagini(document.getElementById("divCarosello-profilo"));
+
 let utente = null;
 
 document.getElementById("Register-Button").onclick = () => {
@@ -156,8 +158,8 @@ document.getElementById("BottoneProfilo").onclick = () => {
       .then(r => r.json())
       .then(data => {
         console.log("Post del profilo:", data);
-        immagini.setImages(data);
-        immagini.render();
+        immagini_profilo.setImages(data);
+        immagini_profilo.render_profilo();
       })
       .catch(err => console.error("Errore fetch profilo:", err));
   };

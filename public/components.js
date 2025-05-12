@@ -164,6 +164,23 @@ export function MostraImmagini(e) {
                 }).join('');
                 // console.log("line ",line);
                 container.innerHTML = line;
-        }
+        },
+
+        render_profilo: function () {
+            console.log("RENDER PROFILO:    ", immagini);
+            let line = "";
+            line += immagini.map(img => {
+                return `
+                    <div class="card m-2" style="width: 18rem;">
+                        <p class="card-text text-muted">${img.luogo || ""}</p>
+                        <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
+                            <div class="card-body">
+                                <p class="card-text">${img.descrizione || ""}</p>
+                            </div>
+                    </div>
+                    `;
+                }).join('');
+                container.innerHTML = line;
+        },
     };
 };
