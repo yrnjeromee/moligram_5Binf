@@ -1,6 +1,7 @@
-import { createNavigator, createLogin, createRegistrazione, createMiddleware, MostraImmagini } from "./components.js";
+import { createNavigator, createLogin, createRegistrazione, createMiddleware, MostraImmagini, deletePost } from "./components.js";
 
 const navigator = createNavigator();
+const eliminaPost = deletePost();
 const login = createLogin();
 const registrazione = createRegistrazione();
 const middleware = createMiddleware();

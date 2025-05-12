@@ -171,11 +171,12 @@ export function MostraImmagini(e) {
             let line = "";
             line += immagini.map(img => {
                 return `
-                    <div class="card m-2" style="width: 18rem;">
+                    <div class="card m-2" data-id="${img.id}" style="width: 18rem;">
                         <p class="card-text text-muted">${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                             <div class="card-body">
                                 <p class="card-text">${img.descrizione || ""}</p>
+                                <button class="btn btn-danger" onclick="eliminaPost(${img.id})">Elimina</button>
                             </div>
                     </div>
                     `;
@@ -184,3 +185,22 @@ export function MostraImmagini(e) {
         },
     };
 };
+
+export function deletePost(postId) {
+    fetch(`/delete/post/${postId}`, {
+        method: 'DELETE'
+    })
+        .then(response => response.json())
+        .then(result => {
+            if (result.result === "ok") {
+                const postElement = document.querySelector(`.post[data-id="${postId}"]`);
+                if (postElement) postElement.remove();
+            } else {
+                alert("Errore durante l'eliminazione.");
+            }
+        })
+        .catch(error => {
+            console.error("Errore nella richiesta:", error);
+            alert("Errore nella comunicazione col server.");
+        });
+}
