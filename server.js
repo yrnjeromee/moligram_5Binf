@@ -117,7 +117,7 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/files", express.static(path.join(__dirname, "files")));
 
 
-// Aggiungi un post (file)
+//add post (file)
 app.post("/slider/add", (req, res) => {
     upload(req, res, (err) => {
         if (err) {
@@ -126,7 +126,7 @@ app.post("/slider/add", (req, res) => {
 
         console.log('File caricato:', req.file.filename);
 
-        // Inserisci il post nel database
+        //database
         database.insertPost({ 
             image: "./files/" + req.file.filename, 
             descrizione: req.body.descrizione || '', 

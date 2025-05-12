@@ -93,6 +93,9 @@ const handleSubmit = async (event) => {
             body: formData
         });
 
+        const text = await res.text();
+        console.log("RISPOSTA RAW:", text);
+
         const image = await res.json();
         console.log("IMAGE: ", image);
 
