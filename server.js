@@ -128,7 +128,7 @@ app.post("/slider/add", (req, res) => {
 
         // Inserisci il post nel database
         database.insertPost({ 
-            url: "./files/" + req.file.filename, 
+            image: "./files/" + req.file.filename, 
             descrizione: req.body.descrizione || '', 
             luogo: req.body.luogo || '',
             utente_id: req.body.utente_id
