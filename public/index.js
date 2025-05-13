@@ -80,7 +80,7 @@ document.getElementById("Login-Button").onclick = () => {
 //Upload File
 const handleSubmit = async (event) => {
     console.log("UTENTEEEEE:   ", utente);
-    console.log("UTENT IDDD:   ", utente.id);
+    console.log("UTENT IDDD:   ", utente[0].id);
 
 
     const inputFile = document.getElementById('inputFile');
