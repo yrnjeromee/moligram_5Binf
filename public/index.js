@@ -85,13 +85,10 @@ const handleSubmit = async (event) => {
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
 
-    // console.log("inputFile:   ", inputFile.files[0]);
-
     if (!utente || !utente.id) {
         alert("Utente non disponibile");
         return;
     }
-
     if (!inputFile.files[0]) {
         alert("Seleziona un file da caricare.");
         return;
@@ -121,7 +118,7 @@ const handleSubmit = async (event) => {
         }
 
         if (image.success) {
-            // console.log("UTENTE PER IMMAGINE RENDER: ", utente);
+            console.log("UTENTE PER IMMAGINE RENDER: ", utente);
             window.location.hash = "#home";
             const newData = await middleware.load();
             immagini.setImages(newData);
