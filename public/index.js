@@ -121,6 +121,7 @@ const handleSubmit = async (event) => {
         }
 
         if (image.success) {
+            console.log("UTENTE PER IMMAGINE RENDER: ", utente);
             window.location.hash = "#home";
             const newData = await middleware.load();
             immagini.setImages(newData);
