@@ -12,6 +12,7 @@ let utente = null;
 
 document.getElementById("Register-Button").onclick = () => {
     const email = document.getElementById("Register-Mail").value;
+    console.log("EMAIL  ", email);
     if (email) {
         registrazione.checkRegister(email)//false
             .then((result) => {
