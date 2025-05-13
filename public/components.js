@@ -131,11 +131,8 @@ export function MostraImmagini(e) {
         },
 
         render: function () {
-            console.log("RENDER:    ", immagini);
-            // console.log("UTENTEEE:  ", utente);
             let line = "";
             line += immagini.map(img => {
-                // console.log("aaa ", img.image);
                 return `
                     <div class="card m-2" style="width: 18rem;">
                     

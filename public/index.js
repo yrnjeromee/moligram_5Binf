@@ -79,13 +79,9 @@ document.getElementById("Login-Button").onclick = () => {
 
 //Upload File
 const handleSubmit = async (event) => {
-    console.log("UTENTEEE:   ", utente);
-
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
-
-    // console.log("inputFile:   ", inputFile.files[0]);
 
     if (!utente || !utente.id) {
         alert("Utente non disponibile");
@@ -102,6 +98,11 @@ const handleSubmit = async (event) => {
     formData.append("descrizione", descrizione);
     formData.append("luogo", luogo);
     formData.append("utente_id", utente.id);
+
+    // for (let [key, value] of formData.entries()) {
+    //     console.log(key + ": ", value);
+    // };
+    
 
     try {
         const res = await fetch("https://moligram.dcbps.com/slider/add", {
