@@ -80,6 +80,8 @@ document.getElementById("Login-Button").onclick = () => {
 //Upload File
 const handleSubmit = async (event) => {
     console.log("UTENTEEEEE:   ", utente);
+    console.log("UTENT IDDD:   ", utente.id);
+
 
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
@@ -118,7 +120,7 @@ const handleSubmit = async (event) => {
         }
 
         if (image.success) {
-            console.log("UTENTE PER IMMAGINE RENDER: ", utente);
+            // console.log("UTENTE PER IMMAGINE RENDER: ", utente);
             window.location.hash = "#home";
             const newData = await middleware.load();
             immagini.setImages(newData);
