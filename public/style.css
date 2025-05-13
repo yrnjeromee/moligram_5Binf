@@ -1,9 +1,9 @@
 .visible {
     display: block;
 }
-   
+
 .hidden {
-    display: none; 
+    display: none;
 }
 
 * {
@@ -257,28 +257,28 @@ html {
     cursor: pointer;
 }
 
-.input-normali{
-    width:370px;
-    height:30px;
-    font-size:20px;
+.input-normali {
+    width: 370px;
+    height: 30px;
+    font-size: 20px;
     margin-bottom: 20px;
 }
-  
+
 .button-cancella {
     background-color: red;
-    width:100px; 
-    height:40px;
-    font-size:20px;
-    float:left;
-    margin-left:10px
+    width: 100px;
+    height: 40px;
+    font-size: 20px;
+    float: left;
+    margin-left: 10px
 }
-  
+
 .button-conferma {
     background-color: rgb(9, 203, 9);
-    height:40px; 
-    width:100px;
-    font-size:20px;
-    float:right;
+    height: 40px;
+    width: 100px;
+    font-size: 20px;
+    float: right;
     margin-right: 12px;
 }
 
@@ -289,63 +289,107 @@ html {
     cursor: pointer;
     height: 0;
     width: 0;
-  }
-  
-  .container-like {
+}
+
+.container-like {
     display: block;
     position: relative;
     cursor: pointer;
     font-size: 20px;
     user-select: none;
     transition: 100ms;
-  }
-  
-  .checkmark {
+}
+
+.checkmark {
     top: 0;
     left: 0;
     height: 2em;
     width: 2em;
     transition: 100ms;
     animation: dislike_effect 400ms ease;
-  }
-  
-  .container-like input:checked ~ .checkmark path {
+}
+
+.container-like input:checked~.checkmark path {
     fill: #ff5353;
     stroke-width: 0;
-  }
-  
-  .container-like input:checked ~ .checkmark {
+}
+
+.container-like input:checked~.checkmark {
     animation: like_effect 400ms ease;
-  }
-  
-  /*.container-like:hover {
+}
+
+/*.container-like:hover {
     transform: scale(1.1);
   }*/
-  
-  @keyframes like_effect {
+
+@keyframes like_effect {
     0% {
-      transform: scale(0);
+        transform: scale(0);
     }
-  
+
     50% {
-      transform: scale(1.2);
+        transform: scale(1.2);
     }
-  
+
     100% {
-      transform: scale(1);
+        transform: scale(1);
     }
-  }
-  
-  @keyframes dislike_effect {
+}
+
+@keyframes dislike_effect {
     0% {
-      transform: scale(0);
+        transform: scale(0);
     }
-  
+
     50% {
-      transform: scale(1.2);
+        transform: scale(1.2);
     }
-  
+
     100% {
-      transform: scale(1);
+        transform: scale(1);
     }
-  }
+}
+
+#home .image-slider {
+    width: 100%;
+    height: 300px;
+    background-color: #ececec;
+    border-radius: 10px;
+    margin-bottom: 750px;
+}
+
+#home .bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+#home .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#home .btn:hover {
+    background-color: #0056b3;
+}
+
+#home #BottoneProfilo svg {
+    width: 30px;
+    height: 30px;
+}
+
+.titolo-home {
+    font-size: 60px;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    color: #323232;
+    text-shadow: 1px 1px blue;
+}
