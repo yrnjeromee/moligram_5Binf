@@ -8,7 +8,7 @@ const middleware = createMiddleware();
 const immagini = MostraImmagini(document.getElementById("divCarosello"));
 const immagini_profilo = MostraImmagini(document.getElementById("divCarosello-profilo"));
 
-let utente = null;
+window.utente = null;
 
 document.getElementById("Register-Button").onclick = () => {
     const email = document.getElementById("Register-Mail").value;

@@ -132,7 +132,7 @@ export function MostraImmagini(e) {
 
         render: function () {
             console.log("RENDER:    ", immagini);
-            console.log("UTENTEEE:  ", utente);
+            // console.log("UTENTEEE:  ", utente);
             let line = "";
             line += immagini.map(img => {
                 // console.log("aaa ", img.image);
