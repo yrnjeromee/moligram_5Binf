@@ -8,7 +8,7 @@ const middleware = createMiddleware();
 const immagini = MostraImmagini(document.getElementById("divCarosello"));
 const immagini_profilo = MostraImmagini(document.getElementById("divCarosello-profilo"));
 
-window.utente = null;
+let utente = null;
 
 document.getElementById("Register-Button").onclick = () => {
     const email = document.getElementById("Register-Mail").value;
@@ -79,18 +79,19 @@ document.getElementById("Login-Button").onclick = () => {
 
 //Upload File
 const handleSubmit = async (event) => {
-    // console.log("UTENTEEEEE:   ", utente);
-    // console.log("UTENT IDDD:   ", utente[0].id);
-
+    console.log("UTENTEEE:   ", utente);
 
     const inputFile = document.getElementById('inputFile');
     const descrizione = document.getElementById('inputDescrizione').value;
     const luogo = document.getElementById('inputLuogo').value;
 
-    if (!utente || !utente[0].id) {
+    // console.log("inputFile:   ", inputFile.files[0]);
+
+    if (!utente || !utente.id) {
         alert("Utente non disponibile");
         return;
     }
+
     if (!inputFile.files[0]) {
         alert("Seleziona un file da caricare.");
         return;
@@ -120,7 +121,6 @@ const handleSubmit = async (event) => {
         }
 
         if (image.success) {
-            console.log("UTENTE PER IMMAGINE RENDER: ", utente);
             window.location.hash = "#home";
             const newData = await middleware.load();
             immagini.setImages(newData);
