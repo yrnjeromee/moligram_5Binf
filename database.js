@@ -70,14 +70,11 @@ const database = {
         FROM posts
         JOIN utenti ON posts.utente_id = utenti.id`;
         return executeQuery(sql).then(results => {
-                const postsConUrl = results.map(post => ({
-                    ...post,
-                    url: `/files/${post.image}`  // URL accessibile via browser
-                }));
-
-            console.log("Risultato selectPosts:", postsConUrl); // ✅ STAMPA DI DEBUG
-
-            return postsConUrl;
+            results.map(post => ({
+                ...post,
+                url: `/files/${post.image}`, // URL accessibile via browser
+                email: post.email,
+            }));
         });
     },
 
