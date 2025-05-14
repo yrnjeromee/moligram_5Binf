@@ -135,7 +135,6 @@ export function MostraImmagini(e) {
             line += immagini.map(img => {
                 return `
                     <div class="card m-2" style="width: 18rem;">
-                        <p class="card-text text-muted">${img.email || ""}</p>
                         <p class="card-text text-muted">${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                             <div class="card-body">
@@ -170,7 +169,6 @@ export function MostraImmagini(e) {
             line += immagini.map(img => {
                 return `
                     <div class="card m-2" data-id="${img.id}" style="width: 18rem;">
-                        <p class="card-text text-muted">${img.email || ""}</p>
                         <p class="card-text text-muted">${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                             <div class="card-body">
