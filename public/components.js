@@ -101,7 +101,8 @@ export const createMiddleware = () => {
                 fetch("https://moligram.dcbps.com/slider")
                     .then((response) => response.json())
                     .then((json) => {
-                        resolve(json);       
+                        console.log(json)
+                        resolve(json);     
                     })
             })
         },
