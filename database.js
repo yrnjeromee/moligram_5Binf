@@ -66,12 +66,18 @@ const database = {
 
     selectPosts: () => {
         const sql = `
-        SELECT posts.id, posts.descrizione, posts.luogo, posts.image, utenti.email FROM posts JOIN utenti ON posts.utente_id = utenti.id`;
+        SELECT posts.id, posts.descrizione, posts.luogo, posts.image, utenti.email 
+        FROM posts
+        JOIN utenti ON posts.utente_id = utenti.id`;
         return executeQuery(sql).then(results => {
-            return results.map(post => ({
-                ...post,
-                url: `/files/${post.image}`  // URL accessibile via browser
-            }));
+                const postsConUrl = results.map(post => ({
+                    ...post,
+                    url: `/files/${post.image}`  // URL accessibile via browser
+                }));
+
+            console.log("Risultato selectPosts:", postsConUrl); // ✅ STAMPA DI DEBUG
+
+            return postsConUrl;
         });
     },
 
