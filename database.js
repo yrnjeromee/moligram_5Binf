@@ -68,7 +68,7 @@ const database = {
         const sql = `
         SELECT posts.id, posts.descrizione, posts.luogo, posts.image, utenti.email
         FROM posts
-        LEFT JOIN utenti ON posts.utente_id = utenti.id`;
+        JOIN utenti ON posts.utente_id = utenti.id`;
         return executeQuery(sql).then(results => {
             return results.map(post => ({
                 ...post,
