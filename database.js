@@ -66,9 +66,7 @@ const database = {
 
     selectPosts: () => {
         const sql = `
-        SELECT posts.id, posts.descrizione, posts.luogo, posts.image, utenti.email
-        FROM posts
-        JOIN utenti ON posts.utente_id = utenti.id`;
+        SELECT posts.id, posts.descrizione, posts.luogo, posts.image, utenti.email FROM posts JOIN utenti ON posts.utente_id = utenti.id`;
         return executeQuery(sql).then(results => {
             return results.map(post => ({
                 ...post,
