@@ -124,6 +124,7 @@ const handleSubmit = async (event) => {
         if (image.success) {
             window.location.hash = "#home";
             const newData = await middleware.load();
+            console.log("dati veri e propri           ",newData)
             immagini.setImages(newData);
             immagini.render();
         } else {
