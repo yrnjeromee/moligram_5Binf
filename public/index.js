@@ -5,7 +5,7 @@ const eliminaPost = deletePost;
 const login = createLogin();
 const registrazione = createRegistrazione();
 const middleware = createMiddleware();
-const immagini = MostraImmagini(document.getElementById("divCarosello"));
+const immagini = MostraImmagini(document.getElementById("divCarosello-home"));
 const immagini_profilo = MostraImmagini(document.getElementById("divCarosello-profilo"));
 
 let utente = null;
