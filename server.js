@@ -154,7 +154,6 @@ app.get("/getPostUtente", (req,res) => {
 
 // Recupera la lista dei post
 app.get("/slider", (req, res) => {
-    console.log("hai fatto la fetch per i post")
     database.selectPosts()
         .then((data) => res.json(data))
         .catch((err) => {
