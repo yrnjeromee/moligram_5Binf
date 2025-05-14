@@ -359,13 +359,45 @@ html {
 }
 
 #home .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* centra il contenuto orizzontalmente */
     align-items: center;
-    margin-top: 30px;
+    padding: 10px 0;
+    background-color: grey;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    gap: 10px; /* spazio tra i pulsanti */
+}
+
+#profilo .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* centra il contenuto orizzontalmente */
+    align-items: center;
+    padding: 10px 0;
+    background-color: grey;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    gap: 10px; /* spazio tra i pulsanti */
 }
 
 #home .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#profilo .btn {
     padding: 10px 20px;
     font-size: 16px;
     background-color: #007bff;
@@ -378,11 +410,6 @@ html {
     background-color: #0056b3;
 }
 
-#home #BottoneProfilo svg {
-    width: 30px;
-    height: 30px;
-}
-
 .titolo-home {
     font-size: 60px;
     font-weight: 900;
@@ -392,4 +419,12 @@ html {
     margin-bottom: 50px;
     color: #323232;
     text-shadow: 1px 1px blue;
+}
+
+#divCarosello-home {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* centra le card orizzontalmente */
+  gap: 20px;  /*spazio tra le card */
+  padding: 20px;
 }
