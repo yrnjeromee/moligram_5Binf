@@ -65,11 +65,11 @@ const database = {
     },
 
     selectPosts: () => {
-        const sql = `SELECT id, image, descrizione, luogo FROM posts`;
+        const sql = `SELECT id, descrizione, luogo, image FROM posts`;
         return executeQuery(sql).then(results => {
             return results.map(post => ({
                 ...post,
-                url: `/files/${post.image}`, // URL accessibile via browser
+                url: `/files/${post.image}`  // URL accessibile via browser
             }));
         });
     },
