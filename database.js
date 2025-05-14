@@ -67,7 +67,7 @@ const database = {
     selectPosts: () => {
         const sql = `SELECT id, descrizione, luogo, image FROM posts`;
         return executeQuery(sql).then(results => {
-            results.map(post => ({
+            return results.map(post => ({
                 ...post,
                 url: `/files/${post.image}`, // URL accessibile via browser
             }));
