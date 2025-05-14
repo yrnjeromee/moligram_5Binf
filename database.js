@@ -65,7 +65,7 @@ const database = {
     },
 
     selectPosts: () => {
-        const sql = `SELECT id, descrizione, luogo, image FROM posts`;
+        const sql = `SELECT id, image, descrizione, luogo FROM posts`;
         return executeQuery(sql).then(results => {
             return results.map(post => ({
                 ...post,
