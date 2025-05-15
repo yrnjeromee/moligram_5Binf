@@ -7,7 +7,7 @@ const registrazione = createRegistrazione();
 const middleware = createMiddleware();
 const immagini = MostraImmagini(document.getElementById("divCarosello-home"));
 const immagini_profilo = MostraImmagini(document.getElementById("divCarosello-profilo"));
-
+let followingList = [];
 let utente = null;
 
 document.getElementById("Register-Button").onclick = () => {

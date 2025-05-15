@@ -140,14 +140,16 @@ export function MostraImmagini(container) {
     renderWithFollow(currentUser, followingList) {
       container.innerHTML = images.map(img => `
         <div class="card m-2" style="width: 18rem;" data-id="${img.id}">
-          <p class="card-text text-muted">${img.email_utente}</p>
-          <p class="card-text text-muted">${img.luogo || ''}</p>
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="card-text text-muted">${img.email_utente}</span>
+            ${img.utente_id !== currentUser.id && !followingList.includes(img.utente_id)
+              ? `<button class="btn btn-sm btn-primary follow-btn" data-id="${img.utente_id}">Segui</button>`
+              : ''}
+          </div>
+          <p class="card-text text-muted px-3">${img.luogo || ''}</p>
           <img src="/files/${img.image}" class="card-img-top" alt="${img.descrizione || ''}">
           <div class="card-body">
             <p class="card-text">${img.descrizione || ''}</p>
-            ${img.utente_id !== currentUser.id && !followingList.includes(img.utente_id)
-              ? `<button class="btn btn-primary follow-btn" data-id="${img.utente_id}">Segui</button>`
-              : ''}
           </div>
         </div>
       `).join('');
@@ -159,12 +161,15 @@ export function MostraImmagini(container) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ followerId: currentUser.id })
           });
+          // Update local list to avoid re-render button
+          followingList.push(parseInt(followeeId, 10));
           e.target.remove();
         });
       });
     }
   };
-}
+};
+
 
 export function deletePost(postId) {
     fetch(`/delete/post/${postId}`, {
