@@ -547,6 +547,8 @@ html {
   cursor: pointer;
   font: inherit;
   padding: 0;
+  margin-right: 20px;
+  margin-top: 5px;
 }
 
 .button-link:hover {
