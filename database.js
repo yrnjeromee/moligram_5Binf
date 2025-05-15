@@ -32,10 +32,11 @@ const database = {
                 descrizione TEXT,
                 luogo VARCHAR(255),
                 utente_id INT,
-                FOREIGN KEY (utente_id) REFERENCES utenti(id) ON DELETE SET NULL
+                email_utente VARCHAR(255),
+                FOREIGN KEY (utente_id) REFERENCES utenti(id) ON DELETE SET NULL,
+                FOREIGN KEY (email_utente) REFERENCES utenti(email) ON DELETE SET NULL
             );
         `;
-
 
         const createUtenti = `
             CREATE TABLE IF NOT EXISTS utenti (
@@ -52,10 +53,11 @@ const database = {
     },
 
     insertPost: (post) => {
-        const sql = `INSERT INTO posts (descrizione, luogo, image, utente_id) VALUES (?, ?, ?, ?)`;
-        const values = [post.descrizione, post.luogo, post.image, post.utente_id];
+        const sql = `INSERT INTO posts (descrizione, luogo, image, utente_id, email_utente) VALUES (?, ?, ?, ?, ?)`;
+        const values = [post.descrizione, post.luogo, post.image, post.utente_id, post.email_utente];
         return executeQuery(sql, values);
-    },    
+    },
+  
     
 
     insertUtente: (utente) => {
@@ -69,7 +71,7 @@ const database = {
         return executeQuery(sql).then(results => {
             return results.map(post => ({
                 ...post,
-                url: `/files/${post.image}`  // URL accessibile via browser
+                url: `/files/${post.image}`
             }));
         });
     },
