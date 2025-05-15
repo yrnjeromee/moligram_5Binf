@@ -126,7 +126,8 @@ app.post("/slider/add", upload.single('file'), async (req, res) => {
             image: req.file.filename,
             descrizione: req.body.descrizione || '',
             luogo: req.body.luogo || '',
-            utente_id: req.body.utente_id
+            utente_id: req.body.utente_id,
+            email_utente: req.body.email_utente
         });
 
         res.json({ success: true, url: `/files/${req.file.filename}` });
