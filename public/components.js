@@ -121,76 +121,50 @@ export const createMiddleware = () => {
 }
 
 //render
-export function MostraImmagini(e) {
-    let immagini = [];
-    const container = e;
-
-    return {
-        setImages: function (data) {
-            immagini = data;
-            console.log("SET IMAGES:     ", immagini);
-        },
-
-        render: function () {
-            let line = "";
-            line += immagini.map(img => {
-                return `
-                    <div class="card m-2" style="width: 18rem;">
-                        <p class="card-text text-muted">${img.email_utente || "utente non caricato"}</p><button type="button" class="btn btn-primary" id="seguiUtente"> Segui </button>
-                        <p class="card-text text-muted">${img.luogo || ""}</p>
-                        <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
-                            <div class="card-body">
-                                <p class="card-text">${img.descrizione || ""}</p>
-                            </div>
-                        <label class="container-like">
-                        <input type="checkbox" />
-
-                        <div class="checkmark">
-                            <svg viewBox="0 0 256 256">
-                            <rect fill="none" height="256" width="256"></rect>
-                            <path
-                                d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z"
-                                stroke-width="20px"
-                                stroke="#000"
-                                fill="none">
-                            </path>
-                            </svg>
-                        </div>
-
-                        </label>
-                    </div>
-                    `;
-                }).join('');
-                // console.log("line ",line);
-                container.innerHTML = line;
-        },
-
-        render_profilo: function (eliminaPost) {
-            console.log("RENDER PROFILO:    ", immagini);
-            let line = "";
-            line += immagini.map(img => {
-                return `
-                    <div class="card m-2" data-id="${img.id}" style="width: 18rem;">
-                        <p class="card-text text-muted">${img.luogo || ""}</p>
-                        <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
-                            <div class="card-body">
-                                <p class="card-text">${img.descrizione || ""}</p>
-                                <button class="btn btn-danger btn-elimina" data-id="${img.id}">Elimina</button>
-                            </div>
-                    </div>
-                    `;
-                }).join('');
-                container.innerHTML = line;
-
-                document.querySelectorAll('.btn-elimina').forEach(button => {
-                    button.addEventListener('click', () => {
-                        const postId = button.dataset.id;
-                        eliminaPost(postId);
-                    });
-                });
-        },
-    };
-};
+export function MostraImmagini(container) {
+  let images = [];
+  return {
+    setImages(data) { images = data; },
+    render() {
+      container.innerHTML = images.map(img => `
+        <div class="card m-2" style="width: 18rem;" data-id="${img.id}">
+          <p class="card-text text-muted">${img.email_utente}</p>
+          <p class="card-text text-muted">${img.luogo || ''}</p>
+          <img src="/files/${img.image}" class="card-img-top" alt="${img.descrizione || ''}">
+          <div class="card-body">
+            <p class="card-text">${img.descrizione || ''}</p>
+          </div>
+        </div>
+      `).join('');
+    },
+    renderWithFollow(currentUser, followingList) {
+      container.innerHTML = images.map(img => `
+        <div class="card m-2" style="width: 18rem;" data-id="${img.id}">
+          <p class="card-text text-muted">${img.email_utente}</p>
+          <p class="card-text text-muted">${img.luogo || ''}</p>
+          <img src="/files/${img.image}" class="card-img-top" alt="${img.descrizione || ''}">
+          <div class="card-body">
+            <p class="card-text">${img.descrizione || ''}</p>
+            ${img.utente_id !== currentUser.id && !followingList.includes(img.utente_id)
+              ? `<button class="btn btn-primary follow-btn" data-id="${img.utente_id}">Segui</button>`
+              : ''}
+          </div>
+        </div>
+      `).join('');
+      container.querySelectorAll('.follow-btn').forEach(btn => {
+        btn.addEventListener('click', async e => {
+          const followeeId = e.target.dataset.id;
+          await fetch(`https://moligram.dcbps.com/follow/${followeeId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ followerId: currentUser.id })
+          });
+          e.target.remove();
+        });
+      });
+    }
+  };
+}
 
 export function deletePost(postId) {
     fetch(`/delete/post/${postId}`, {

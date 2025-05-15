@@ -47,8 +47,19 @@ const database = {
             );
         `;
 
+        const createFollows = `
+            CREATE TABLE IF NOT EXISTS follows (
+                follower_id INT,
+                followee_id INT,
+                PRIMARY KEY(follower_id, followee_id),
+                FOREIGN KEY (follower_id) REFERENCES utenti(id) ON DELETE CASCADE,
+                FOREIGN KEY (followee_id) REFERENCES utenti(id) ON DELETE CASCADE
+            );
+        `;
+
         return executeQuery(createPosts)
-            .then(() => executeQuery(createUtenti));
+            .then(() => executeQuery(createUtenti))
+            .then(() => executeQuery(createFollows));
     },
 
     insertPost: (post) => {
@@ -128,6 +139,30 @@ const database = {
                 }))
             );
     },
+
+    followUser: (followerId, followeeId) => {
+        const sql = `INSERT IGNORE INTO follows (follower_id, followee_id) VALUES (?, ?)`;
+        return executeQuery(sql, [followerId, followeeId])
+            .then(() => Promise.all([
+                executeQuery(`UPDATE utenti SET seguiti = seguiti + 1 WHERE id = ?`, [followerId]),
+                executeQuery(`UPDATE utenti SET follower = follower + 1 WHERE id = ?`, [followeeId])
+            ]));
+    },
+
+    unfollowUser: (followerId, followeeId) => {
+        const sql = `DELETE FROM follows WHERE follower_id = ? AND followee_id = ?`;
+        return executeQuery(sql, [followerId, followeeId])
+            .then(() => Promise.all([
+                executeQuery(`UPDATE utenti SET seguiti = GREATEST(seguiti - 1, 0) WHERE id = ?`, [followerId]),
+                executeQuery(`UPDATE utenti SET follower = GREATEST(follower - 1, 0) WHERE id = ?`, [followeeId])
+            ]));
+    },
+
+    getFollowing: (followerId) => {
+        const sql = `SELECT followee_id FROM follows WHERE follower_id = ?`;
+            return executeQuery(sql, [followerId]).then(rows => rows.map(r => r.followee_id));
+    }
+
 };
 
 module.exports = database;

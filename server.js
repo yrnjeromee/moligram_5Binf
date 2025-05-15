@@ -245,6 +245,22 @@ app.get("/slider/user/:id", async (req, res) => {
     }
 });
 
+// Follow endpoints
+app.post('/follow/:id', async (req, res) => {
+  await database.followUser(req.body.followerId, req.params.id);
+  res.json({ success: true });
+});
+
+app.delete('/unfollow/:id', async (req, res) => {
+  await database.unfollowUser(req.body.followerId, req.params.id);
+  res.json({ success: true });
+});
+
+app.get('/following/:id', async (req, res) => {
+  const list = await database.getFollowing(req.params.id);
+  res.json(list);
+});
+
 
 const server = http.createServer(app);
 

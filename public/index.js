@@ -28,53 +28,36 @@ document.getElementById("Register-Button").onclick = () => {
     }
 };
 
-document.getElementById("Login-Button").onclick = () => {
-    const email = document.getElementById("Login-Mail").value;
-    const password = document.getElementById("Login-Password").value;
-    if (email && password) {
-        login.checkLogin(email, password).then((result) => {
-            console.log(result);
-            if (result === true) {
-                login.validateLogin();
-                window.location.hash = "#home";
-                console.log("Accesso riuscito");
-
-                middleware.load().then((newData) => { //            QUI
-                    console.log(newData);
-
-                });
-
-
-                fetch("https://moligram.dcbps.com/utente", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email })
-                })
-                .then(r => r.json())
-                .then(data => {
-                    console.log("Dati utente ricevuti:", data);
-                    utente = Array.isArray(data) ? data[0] : data;  //!!!!!!!!!!!!!!!!!!!
-                    window.utente = data;     //globale
-                    console.log("window utente:", window.utente);
-
-                    // middleware.load().then((newData) => {
-                    // console.log(newData);
-                    // });
-
-                })
-                .catch(err => console.error("Errore nel recupero utente:", err));
-
-
-            } else {
-                alert("Credenziali errate");
-            }
-        }, console.log);
-    } else {
-      alert("Compila tutti i campi.");
-    }
+document.getElementById('Login-Button').onclick = () => {
+  const email = document.getElementById('Login-Mail').value;
+  const password = document.getElementById('Login-Password').value;
+  if (!email || !password) return alert('Compila tutti i campi.');
+  login.checkLogin(email, password).then(success => {
+    if (!success) return alert('Credenziali errate');
+    login.validateLogin();
+    window.location.hash = '#home';
+    fetch('https://moligram.dcbps.com/utente', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    })
+      .then(r => r.json())
+      .then(data => {
+        utente = Array.isArray(data) ? data[0] : data;
+        // Carica lista following
+        fetch(`https://moligram.dcbps.com/following/${utente.id}`)
+          .then(r => r.json())
+          .then(list => { followingList = list; renderFeed(); });
+      });
+  });
 };
+
+function renderFeed() {
+  middleware.load().then(data => {
+    immagini.setImages(data);
+    immagini.renderWithFollow(utente, followingList);
+  });
+}
 
 
 //Upload File
