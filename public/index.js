@@ -100,8 +100,8 @@ const handleSubmit = async (event) => {
     formData.append("utente_id", utente.id);
     formData.append("email_utente", utente.email);
 
-    console.log("EMAIL UTENTEEEEE  ", utente.email);
-    console.log("IDDDD UTENTEEEEE  ", utente.id);
+    // console.log("EMAIL UTENTEEEEE  ", utente.email);
+    // console.log("IDDDD UTENTEEEEE  ", utente.id);
 
 
 
