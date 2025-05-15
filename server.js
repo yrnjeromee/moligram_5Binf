@@ -155,13 +155,18 @@ app.get("/getPostUtente", (req,res) => {
 
 // Recupera la lista dei post
 app.get("/slider", (req, res) => {
+    console.log("Ricevuta richiesta GET /slider");
     database.selectPosts()
-        .then((data) => res.json(data))
+        .then((data) => {
+            console.log("DATAAAAAAAA ", data);
+            res.json(data);
+        })
         .catch((err) => {
             console.error("Errore durante il recupero dei post:", err);
             res.status(500).json({ error: "Errore durante il recupero dei post" });
         });
 });
+
 
 
 // Elimina un post

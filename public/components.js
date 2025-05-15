@@ -97,6 +97,7 @@ export const createMiddleware = () => {
             })
         },
         load: () => {
+            console.log("LOADDDD");
             return new Promise((resolve, reject) => {
                 fetch("https://moligram.dcbps.com/slider")
                     .then((response) => response.json())
@@ -135,7 +136,7 @@ export function MostraImmagini(e) {
             line += immagini.map(img => {
                 return `
                     <div class="card m-2" style="width: 18rem;">
-                        <p class="card-text text-muted">${img.email_utente || ""}</p>
+                        <p class="card-text text-muted">${img.email_utente || "utente non caricato"}</p>
                         <p class="card-text text-muted">${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                             <div class="card-body">

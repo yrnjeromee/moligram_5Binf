@@ -66,14 +66,18 @@ const database = {
     },
 
     selectPosts: () => {
-        const sql = `SELECT id, descrizione, luogo, image FROM posts`;
-        return executeQuery(sql).then(results => {
-            return results.map(post => ({
-                ...post,
-                url: `/files/${post.image}`
-            }));
-        });
+        const sql = `SELECT id, descrizione, luogo, image, email_utente
+                    FROM posts
+                `;
+        return executeQuery(sql)
+        // .then(results => {
+        //     return results.map(post => ({
+        //         ...post,
+        //         url: `/files/${post.image}`
+        //     }));
+        // });
     },
+
 
     selectUtenti: () => {
         const sql = `SELECT id, email, password, follower, seguiti FROM utenti`;
@@ -112,7 +116,7 @@ const database = {
 
     selectPostsByUser: (utenteId) => {
         const sql = `
-            SELECT id, descrizione, luogo, image, utente_id
+            SELECT id, descrizione, luogo, image, utente_id, email_utente
             FROM posts
             WHERE utente_id = ?
         `;
@@ -124,6 +128,7 @@ const database = {
                 }))
             );
     }
+
     
 };
 
