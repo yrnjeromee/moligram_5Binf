@@ -33,8 +33,7 @@ const database = {
                 luogo VARCHAR(255),
                 utente_id INT,
                 email_utente VARCHAR(255),
-                FOREIGN KEY (utente_id) REFERENCES utenti(id) ON DELETE SET NULL,
-                FOREIGN KEY (email_utente) REFERENCES utenti(email) ON DELETE SET NULL
+                FOREIGN KEY (utente_id) REFERENCES utenti(id) ON DELETE SET NULL
             );
         `;
 
@@ -53,8 +52,8 @@ const database = {
     },
 
     insertPost: (post) => {
-        const sql = `INSERT INTO posts (descrizione, luogo, image, utente_id, email_utente) VALUES (?, ?, ?, ?, ?)`;
-        const values = [post.descrizione, post.luogo, post.image, post.utente_id, post.email_utente];
+        const sql = `INSERT INTO posts (image, descrizione, luogo, utente_id, email_utente) VALUES (?, ?, ?, ?, ?)`;
+        const values = [post.image, post.descrizione, post.luogo, post.utente_id, post.email_utente];
         return executeQuery(sql, values);
     },
   
