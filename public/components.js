@@ -148,12 +148,12 @@ export function MostraImmagini(e) {
             let line = "";
             immagini.forEach(img => {
                 const isMe = currentUserId === img.utente_id;
-                // MOD: inizia HTML card
+                
                 let card = `<div class="card m-2" style="width: 18rem;">
                     <p class="card-text text-muted">${img.email_utente || "utente non caricato"}</p>`;
 
                 // MOD: aggiunge bottone Segui se non è il mio e non è già seguito
-                if (!isMe && !following.includes(img.utente_id)) {
+                if (currentUserId && !isMe && !following.includes(img.utente_id)) {
                     card += `<button class="btn-segui btn btn-primary" data-id="${img.utente_id}">Segui</button>`;
                 }
 
