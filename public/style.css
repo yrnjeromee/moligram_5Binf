@@ -350,10 +350,16 @@ html {
     }
 }
 
+#divCarosello-home {
+  position: relative;
+  left: 63px;
+}
+
 .button-container {
     position: fixed;
     bottom: 15px;
-    left: 43%;
+    left: 49.84%;
+    transform: translateX(-49.84%);
     width: 100%;
     display: flex;
     justify-content: center;
