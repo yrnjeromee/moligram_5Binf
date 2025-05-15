@@ -132,7 +132,7 @@ export function MostraImmagini(e) {
         },
 
         render: async function () {
-            const currentUserId = window.utente?.id;
+            const currentUserId = window.utente && window.utente.id;
 
             // MOD: recupera la lista di utenti che seguo
             let following = [];
@@ -148,43 +148,43 @@ export function MostraImmagini(e) {
             let line = "";
             immagini.forEach(img => {
                 const isMe = currentUserId === img.utente_id;
-                // MOD: determina se deve apparire il pulsante Segui
-                let cardHtml = `
-                    <div class="card m-2" style="width: 18rem;">
-                        <p class="card-text text-muted">${img.email_utente || "utente non caricato"}</p>\n`;
+                // MOD: inizia HTML card
+                let card = `<div class="card m-2" style="width: 18rem;">
+                    <p class="card-text text-muted">${img.email_utente || "utente non caricato"}</p>`;
 
+                // MOD: aggiunge bottone Segui se non è il mio e non è già seguito
                 if (!isMe && !following.includes(img.utente_id)) {
-                    cardHtml += `  <button class="btn-segui btn btn-primary" data-id="${img.utente_id}">Segui</button>\n`;
+                    card += `<button class="btn-segui btn btn-primary" data-id="${img.utente_id}">Segui</button>`;
                 }
 
-                cardHtml += `
-                        <p class="card-text text-muted">${img.luogo || ""}</p>
-                        <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
-                        <div class="card-body">
-                            <p class="card-text">${img.descrizione || ""}</p>
+                card += `
+                    <p class="card-text text-muted">${img.luogo || ""}</p>
+                    <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
+                    <div class="card-body">
+                        <p class="card-text">${img.descrizione || ""}</p>
+                    </div>
+                    <label class="container-like">
+                        <input type="checkbox" />
+                        <div class="checkmark">
+                            <svg viewBox="0 0 256 256">
+                                <rect fill="none" height="256" width="256"></rect>
+                                <path
+                                    d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z"
+                                    stroke-width="20px"
+                                    stroke="#000"
+                                    fill="none">
+                                </path>
+                            </svg>
                         </div>
-                        <label class="container-like">
-                            <input type="checkbox" />
-                            <div class="checkmark">
-                                <svg viewBox="0 0 256 256">
-                                    <rect fill="none" height="256" width="256"></rect>
-                                    <path
-                                        d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z"
-                                        stroke-width="20px"
-                                        stroke="#000"
-                                        fill="none">
-                                    </path>
-                                </svg>
-                            </div>
-                        </label>
-                    </div>`;
+                    </label>
+                </div>`;
 
-                line += cardHtml;
+                line += card;
             });
 
             container.innerHTML = line;
 
-            // MOD: gestisco il click sul bottone Segui
+            // MOD: gestisco click su Segui
             container.querySelectorAll('.btn-segui').forEach(btn => {
                 btn.addEventListener('click', async () => {
                     const targetId = btn.dataset.id;
@@ -194,9 +194,9 @@ export function MostraImmagini(e) {
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ followerId: window.utente.id, followedId: targetId })
                         });
-                        btn.remove();  // MOD: rimuove subito il bottone
+                        btn.remove();
                     } catch (err) {
-                        console.error("Errore durante il follow:", err);
+                        console.error("Errore during follow:", err);
                         alert("Errore durante il follow.");
                     }
                 });
