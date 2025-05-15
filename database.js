@@ -47,6 +47,19 @@ const database = {
             );
         `;
 
+        // dopo executeQuery(createUtenti)
+        const createFollows = `
+            CREATE TABLE IF NOT EXISTS follows (
+                follower_id INT NOT NULL,
+                followed_id INT NOT NULL,
+                PRIMARY KEY (follower_id, followed_id),
+                FOREIGN KEY (follower_id) REFERENCES utenti(id) ON DELETE CASCADE,
+                FOREIGN KEY (followed_id) REFERENCES utenti(id) ON DELETE CASCADE
+            );
+        `;
+        executeQuery(createFollows);
+
+
         return executeQuery(createPosts)
             .then(() => executeQuery(createUtenti));
     },
@@ -127,8 +140,29 @@ const database = {
                     url: `/files/${post.image}`  
                 }))
             );
-    }
+    },
 
+    followUser: (followerId, followedId) => executeQuery(
+        `INSERT IGNORE INTO follows (follower_id, followed_id) VALUES (?, ?)`,
+        [followerId, followedId]
+    ),
+
+    unfollowUser: (followerId, followedId) => executeQuery(
+        `DELETE FROM follows WHERE follower_id = ? AND followed_id = ?`,
+        [followerId, followedId]
+    ),
+
+    countFollowers: (userId) => executeQuery(
+        `SELECT COUNT(*) AS cnt FROM follows WHERE followed_id = ?`, [userId]
+    ).then(rows => rows[0].cnt),
+
+    countFollowing: (userId) => executeQuery(
+        `SELECT COUNT(*) AS cnt FROM follows WHERE follower_id = ?`, [userId]
+    ).then(rows => rows[0].cnt),
+
+    getFollowingIds: (followerId) => executeQuery(
+        `SELECT followed_id FROM follows WHERE follower_id = ?`, [followerId]
+    ).then(rows => rows.map(r => r.followed_id))
     
 };
 
