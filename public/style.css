@@ -353,6 +353,13 @@ html {
 #divCarosello-home {
   position: relative;
   left: 63px;
+    padding-bottom: 70px;
+}
+
+#divCarosello-profilo {
+  position: relative;
+  left: 96px;
+  padding-bottom: 80px; /* o più, se serve più spazio */
 }
 
 .button-container {
