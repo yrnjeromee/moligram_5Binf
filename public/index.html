@@ -19,15 +19,18 @@
                 <div class="col-8 d-flex align-items-center justify-content-center mh-100">
                     <div class="image-slider" id="divCarosello-home"></div>
                 </div>
-                <div class="bottom-bar">
-                        <button type="button" class="btn btn-primary" id = "AddPostButtonHome"><strong> + </strong></button>
-                        <button type="button" class="btn btn-primary" id = "BottoneProfilo">
-                            <svg viewBox="0 0 448 512" class="user" width="20" height="20" fill="white">
-                                <path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-13.3c-22.5 10.3-47.7 16-76.3 16s-53.8-5.7-76.3-16h-13.3C74.1 288 32 330.1 32 382.4V416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-33.6c0-52.3-42.1-94.4-94.4-94.4z"></path>
-                            </svg>
-                        </button>
-                    </div>
-
+                <div class="button-container">
+                    <button type="button" class="button" id="AddPostButtonHome">
+                        <strong> + </strong>
+                    </button>
+                    <button type="button" class="button" id="BottoneProfilo">
+                        <svg viewBox="0 0 448 512" class="user" width="20" height="20" fill="white">
+                            <path
+                                d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-13.3c-22.5 10.3-47.7 16-76.3 16s-53.8-5.7-76.3-16h-13.3C74.1 288 32 330.1 32 382.4V416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-33.6c0-52.3-42.1-94.4-94.4-94.4z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -64,11 +67,11 @@
     </div>
 
     <div id="insert" class="page hidden">
-        <div style="z-index: 3; position:absolute; top:35%;left: 50%;transform: translate(-50%,0);">
+        <div style="z-index: 3; position:absolute; top:27%;left: 50%;transform: translate(-50%,0);">
             <div class="form-container">
                 <h1><b>Add Post</b></h1>
                 <div>
-                    <input class = "input-normali" id = "inputFile" name = "file" type = "file">
+                    <input id = "inputFile" name = "file" type = "file">
                 </div>
                 <div>
                     <label for="text">Descrizione: </label>
@@ -87,16 +90,20 @@
 
     <div id="profilo" class = "page hidden">
         <div class="container" style=" height:100vh">
-            <div class="row" style="height:100%; display:flex">
+            <div>
                 <div>
                     <h1 class="titolo-home"><strong>IL TUO PROFILO</strong></h1>
                 </div>
 
                 <div class="image-slider" id="divCarosello-profilo"></div>
 
-                <div class="bottom-bar">
-                    <button type="button" class="btn btn-primary" id="tornaIndietro"> ← </button>
-                    <button type="button" class="btn btn-primary" id = "AddPostButtonProfilo"><strong> + </strong></button>
+                <div class="button-container">
+                    <button type="button" class="button" id="tornaIndietro">
+                        <strong> ← </strong>
+                    </button>
+                    <button type="button" class="button" id = "AddPostButtonProfilo">
+                        <strong> + </strong>
+                    </button>
                 </div>
                 
             </div>
