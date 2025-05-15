@@ -138,7 +138,7 @@ export function MostraImmagini(e) {
                     <div class="card m-2" style="width: 18rem;">
                         <div class="d-flex align-items-center justify-content-between">
                             <p class="card-text text-muted mb-0">${img.email_utente || "utente non caricato"}</p>
-                            <button type="button" class="button-link " id="seguiUtente">Segui</button>
+                            <button type="button" class="button-link">Segui</button>
                         </div>
                         <p class="card-text text-muted">${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
@@ -160,12 +160,20 @@ export function MostraImmagini(e) {
                             </div>
                         </label>
                     </div>
+                `;
+            }).join('');
 
-                    `;
-                }).join('');
-                // console.log("line ",line);
-                container.innerHTML = line;
+            container.innerHTML = line;
+
+            container.querySelectorAll(".button-link").forEach(button => {
+                button.onclick = () => {
+                    button.textContent = "Seguito";
+                    button.disabled = true;
+                    button.classList.add("text-muted");
+                };
+            });
         },
+
 
         render_profilo: function (eliminaPost) {
             console.log("RENDER PROFILO:    ", immagini);
