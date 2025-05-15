@@ -537,3 +537,18 @@ html {
 .button-conferma:hover {
     background-color: rgb(9, 203, 9);
 }
+
+
+.button-link {
+  background: none;
+  border: none;
+  color: #007BFF;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.button-link:hover {
+  color: #0056b3;
+}
