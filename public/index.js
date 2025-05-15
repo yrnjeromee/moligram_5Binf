@@ -151,6 +151,13 @@ document.getElementById("buttonCancellaFile").onclick = () => {
     window.location.hash = "#home";
 }
 
+document.getElementById("tornaIndietro").onclick = async () => {
+    window.location.hash = "#home";
+    const data = await middleware.load();
+    immagini.setImages(data);
+    immagini.render();
+}
+
 document.getElementById("buttonConfermaFile").onclick = handleSubmit;
 
 document.getElementById("BottoneProfilo").onclick = () => {
