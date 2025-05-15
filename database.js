@@ -57,9 +57,10 @@ const database = {
             );
         `;
 
+        executeQuery(createFollows);
+
         return executeQuery(createPosts)
-            .then(() => executeQuery(createUtenti))
-            .then(() => executeQuery(createFollows));
+            .then(() => executeQuery(createUtenti));
     },
 
     insertPost: (post) => {
