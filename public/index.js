@@ -98,9 +98,11 @@ const handleSubmit = async (event) => {
     formData.append("descrizione", descrizione);
     formData.append("luogo", luogo);
     formData.append("utente_id", utente.id);
-    formData.append("email_utente", utente.email_utente);
+    formData.append("email_utente", utente.email);
 
-    console.log("EMAIL UTENTEEEEE  ", utente.email_utente);
+    console.log("EMAIL UTENTEEEEE  ", utente.email);
+    console.log("IDDDD UTENTEEEEE  ", utente.id);
+
 
 
     // for (let [key, value] of formData.entries()) {
