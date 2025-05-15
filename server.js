@@ -109,6 +109,47 @@ app.post("/login", async (req, res) => {
     }
 });
 
+// Segui un utente
+app.post('/follow', async (req, res) => {
+    const { followerId, followedId } = req.body;
+    await database.followUser(followerId, followedId);
+    // aggiorna contatori
+    const [follCount, segCount] = await Promise.all([
+      database.countFollowers(followedId),
+      database.countFollowing(followerId)
+    ]);
+    await database.executeQuery(
+      `UPDATE utenti SET follower = ? WHERE id = ?`, [follCount, followedId]
+    );
+    await database.executeQuery(
+      `UPDATE utenti SET seguiti = ? WHERE id = ?`, [segCount, followerId]
+    );
+    res.json({ success: true, followers: follCount, followings: segCount });
+});
+  
+  // Smetti di seguire
+app.post('/unfollow', async (req, res) => {
+    const { followerId, followedId } = req.body;
+    await database.unfollowUser(followerId, followedId);
+    const [follCount, segCount] = await Promise.all([
+      database.countFollowers(followedId),
+      database.countFollowing(followerId)
+    ]);
+    await database.executeQuery(
+      `UPDATE utenti SET follower = ? WHERE id = ?`, [follCount, followedId]
+    );
+    await database.executeQuery(
+      `UPDATE utenti SET seguiti = ? WHERE id = ?`, [segCount, followerId]
+    );
+    res.json({ success: true, followers: follCount, followings: segCount });
+});
+  
+// Chi seguo (restituisce array di ID)
+app.get('/following/:followerId', async (req, res) => {
+    const ids = await database.getFollowingIds(req.params.followerId);
+    res.json(ids);
+});
+
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/files", express.static(path.join(__dirname, "files")));
 
@@ -243,47 +284,6 @@ app.get("/slider/user/:id", async (req, res) => {
       console.error("Errore recupero post utente:", err);
       res.status(500).json({ error: "Errore recupero post utente" });
     }
-});
-
-// Segui un utente
-app.post('/follow', async (req, res) => {
-  const { followerId, followedId } = req.body;
-  await database.followUser(followerId, followedId);
-  // aggiorna contatori
-  const [follCount, segCount] = await Promise.all([
-    database.countFollowers(followedId),
-    database.countFollowing(followerId)
-  ]);
-  await database.executeQuery(
-    `UPDATE utenti SET follower = ? WHERE id = ?`, [follCount, followedId]
-  );
-  await database.executeQuery(
-    `UPDATE utenti SET seguiti = ? WHERE id = ?`, [segCount, followerId]
-  );
-  res.json({ success: true, followers: follCount, followings: segCount });
-});
-
-// Smetti di seguire
-app.post('/unfollow', async (req, res) => {
-  const { followerId, followedId } = req.body;
-  await database.unfollowUser(followerId, followedId);
-  const [follCount, segCount] = await Promise.all([
-    database.countFollowers(followedId),
-    database.countFollowing(followerId)
-  ]);
-  await database.executeQuery(
-    `UPDATE utenti SET follower = ? WHERE id = ?`, [follCount, followedId]
-  );
-  await database.executeQuery(
-    `UPDATE utenti SET seguiti = ? WHERE id = ?`, [segCount, followerId]
-  );
-  res.json({ success: true, followers: follCount, followings: segCount });
-});
-
-// Chi seguo (restituisce array di ID)
-app.get('/following/:followerId', async (req, res) => {
-  const ids = await database.getFollowingIds(req.params.followerId);
-  res.json(ids);
 });
 
 
