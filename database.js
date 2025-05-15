@@ -50,10 +50,10 @@ const database = {
         const createFollows = `
             CREATE TABLE IF NOT EXISTS follows (
                 follower_id INT,
-                followee_id INT,
-                PRIMARY KEY(follower_id, followee_id),
+                following_id INT,
+                PRIMARY KEY(follower_id, following_id),
                 FOREIGN KEY (follower_id) REFERENCES utenti(id) ON DELETE CASCADE,
-                FOREIGN KEY (followee_id) REFERENCES utenti(id) ON DELETE CASCADE
+                FOREIGN KEY (following_id) REFERENCES utenti(id) ON DELETE CASCADE
             );
         `;
 
@@ -140,27 +140,33 @@ const database = {
             );
     },
 
-    followUser: (followerId, followeeId) => {
-        const sql = `INSERT IGNORE INTO follows (follower_id, followee_id) VALUES (?, ?)`;
-        return executeQuery(sql, [followerId, followeeId])
-            .then(() => Promise.all([
-                executeQuery(`UPDATE utenti SET seguiti = seguiti + 1 WHERE id = ?`, [followerId]),
-                executeQuery(`UPDATE utenti SET follower = follower + 1 WHERE id = ?`, [followeeId])
-            ]));
+    followUser: (followerId, followingId) => {
+        return executeQuery(
+            `INSERT IGNORE INTO follows (follower_id, following_id) VALUES (?, ?)`,
+            [followerId, followingId]
+        )
+        .then(() => Promise.all([
+            executeQuery(`UPDATE utenti SET seguiti = seguiti + 1 WHERE id = ?`, [followerId]),
+            executeQuery(`UPDATE utenti SET follower = follower + 1 WHERE id = ?`, [followingId])
+        ]));
     },
 
-    unfollowUser: (followerId, followeeId) => {
-        const sql = `DELETE FROM follows WHERE follower_id = ? AND followee_id = ?`;
-        return executeQuery(sql, [followerId, followeeId])
-            .then(() => Promise.all([
-                executeQuery(`UPDATE utenti SET seguiti = GREATEST(seguiti - 1, 0) WHERE id = ?`, [followerId]),
-                executeQuery(`UPDATE utenti SET follower = GREATEST(follower - 1, 0) WHERE id = ?`, [followeeId])
-            ]));
+    unfollowUser: (followerId, followingId) => {
+        return executeQuery(
+        `DELETE FROM follows WHERE follower_id = ? AND following_id = ?`,
+        [followerId, followingId]
+        )
+        .then(() => Promise.all([
+            executeQuery(`UPDATE utenti SET seguiti = GREATEST(seguiti - 1, 0) WHERE id = ?`, [followerId]),
+            executeQuery(`UPDATE utenti SET follower = GREATEST(follower - 1, 0) WHERE id = ?`, [followingId])
+        ]));
     },
 
     getFollowing: (followerId) => {
-        const sql = `SELECT followee_id FROM follows WHERE follower_id = ?`;
-            return executeQuery(sql, [followerId]).then(rows => rows.map(r => r.followee_id));
+        return executeQuery(
+            `SELECT following_id FROM follows WHERE follower_id = ?`,
+            [followerId]
+        ).then(rows => rows.map(r => r.following_id));
     }
 
 };
