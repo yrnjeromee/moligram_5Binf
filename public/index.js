@@ -59,6 +59,11 @@ document.getElementById("Login-Button").onclick = () => {
                     window.utente = data;     //globale
                     console.log("window utente:", window.utente);
 
+                    const userDiv = document.getElementById("user");
+                    if (userDiv && utente && utente.email) {
+                        userDiv.innerHTML = `<p><strong>${utente.email}</strong></p>`;
+                    }
+
                     // middleware.load().then((newData) => {
                     // console.log(newData);
                     // });
