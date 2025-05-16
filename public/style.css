@@ -15,7 +15,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #070707;
 }
 
 html {
@@ -40,9 +40,9 @@ html {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    background-color: #fff;
     padding: 10px 20px;
     border-radius: 8px;
+    color: #fff;
 }
 
 .titolo-home {
@@ -52,8 +52,7 @@ html {
     letter-spacing: 2px;
     margin-top: 30px;
     margin-bottom: 50px;
-    color: #000000;
-    text-shadow: 1px 1px blue;
+    color: #ffffff;
 }
 
 .wrapper {
@@ -163,8 +162,6 @@ html {
     position: relative;
     background-color: transparent;
     perspective: 1000px;
-    /* width: 100%;
-      height: 100%; */
     text-align: center;
     transition: transform 0.8s;
     transform-style: preserve-3d;
@@ -398,12 +395,12 @@ html {
 }
 
 .card {
-    border: 1px solid #dbdbdb;
     border-radius: 12px;
     overflow: hidden;
-    background-color: #fff;
+    background-color: #1b1b1b;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease;
+    color: #fff;
 }
 
 .card .card-img-top {
@@ -419,10 +416,7 @@ html {
 .card .card-text {
     margin: 4px 0;
     font-size: 14px;
-}
-
-.card .card-text.text-muted {
-    color: #8e8e8e;
+    color: #fff;
     padding: 5px 15px 0;
     font-size: 13px;
     font-weight: 500;
@@ -446,16 +440,16 @@ html {
 .checkmark svg {
     width: 24px;
     height: 24px;
-    stroke: #8e8e8e;
     transition: all 0.3s ease;
     fill: none;
 }
 
 .container-like input:checked+.checkmark svg {
-    stroke: red;
     fill: red;
     transform: scale(1.1);
 }
+
+
 
 .form-container {
     width: 400px;
@@ -562,3 +556,6 @@ html {
     display: block;
 }
 
+/* .image-slider{
+    background-color: #0056b3;
+} */

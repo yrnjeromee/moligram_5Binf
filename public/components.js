@@ -137,10 +137,10 @@ export function MostraImmagini(e) {
                 return `
                     <div class="card m-2" style="width: 18rem;">
                         <div class="d-flex align-items-center justify-content-between">
-                            <p class="card-text text-muted mb-0">${img.email_utente || "utente non caricato"}</p>
-                            <button type="button" class="button-link">Segui</button>
+                            <p class="card-text mb-0">${img.email_utente || "utente non caricato"}</p>
+                            <button type="button" class="button-link">segui</button>
                         </div>
-                        <p class="card-text text-muted">${img.luogo || ""}</p>
+                        <p class="card-text">📍 ${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                         <div class="card-body">
                             <p class="card-text">${img.descrizione || ""}</p>
@@ -153,7 +153,7 @@ export function MostraImmagini(e) {
                                     <path
                                         d="M224.6,51.9a59.5,59.5,0,0,0-43-19.9,60.5,60.5,0,0,0-44,17.6L128,59.1l-7.5-7.4C97.2,28.3,59.2,26.3,35.9,47.4a59.9,59.9,0,0,0-2.3,87l83.1,83.1a15.9,15.9,0,0,0,22.6,0l81-81C243.7,113.2,245.6,75.2,224.6,51.9Z"
                                         stroke-width="20px"
-                                        stroke="#000"
+                                        stroke="#fff"
                                         fill="none">
                                     </path>
                                 </svg>
@@ -167,9 +167,9 @@ export function MostraImmagini(e) {
 
             container.querySelectorAll(".button-link").forEach(button => {
                 button.onclick = () => {
-                    button.textContent = "Seguito";
+                    button.textContent = "seguito";
                     button.disabled = true;
-                    button.classList.add("text-muted");
+                    button.classList.add("text-light");
                 };
             });
         },
@@ -181,7 +181,7 @@ export function MostraImmagini(e) {
             line += immagini.map(img => {
                 return `
                     <div class="card m-2" data-id="${img.id}" style="width: 18rem;">
-                        <p class="card-text text-muted">${img.luogo || ""}</p>
+                        <p class="card-text">${img.luogo || ""}</p>
                         <img src="./../files/${img.image}" class="card-img-top" alt="${img.descrizione || ""}">
                             <div class="card-body">
                                 <p class="card-text">${img.descrizione || ""}</p>
