@@ -108,12 +108,9 @@ const handleSubmit = async (event) => {
     // console.log("EMAIL UTENTEEEEE  ", utente.email);
     // console.log("IDDDD UTENTEEEEE  ", utente.id);
 
-
-
     // for (let [key, value] of formData.entries()) {
     //     console.log(key + ": ", value);
     // };
-    
 
     try {
         const res = await fetch("https://moligram.dcbps.com/slider/add", {
@@ -134,7 +131,8 @@ const handleSubmit = async (event) => {
 
         if (image.success) {
             window.location.hash = "#home";
-            const newData = await middleware.load();
+            const data = await middleware.load(); //restituisce promise
+            const newData = data.reverse(); //per girare i post
             immagini.setImages(newData);
             immagini.render();
         } else {
