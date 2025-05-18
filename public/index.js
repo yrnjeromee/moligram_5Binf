@@ -132,8 +132,13 @@ const handleSubmit = async (event) => {
         if (image.success) {
             window.location.hash = "#home";
             const data = await middleware.load(); //restituisce promise
-            const newData = data.reverse(); //per girare i post
-            immagini.setImages(newData);
+
+            //per girare i post
+            // const newData = data.reverse();
+            // immagini.setImages(newData);
+
+            immagini.setImages(data);
+
             immagini.render();
         } else {
             console.error("Errore dal server:", image.error || image);

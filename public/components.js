@@ -127,7 +127,8 @@ export function MostraImmagini(e) {
 
     return {
         setImages: function (data) {
-            immagini = data;
+            immagini = data.reverse();
+            
             console.log("SET IMAGES:     ", immagini);
         },
 
@@ -137,7 +138,7 @@ export function MostraImmagini(e) {
                 return `
                     <div class="card m-2" style="width: 18rem;">
                         <div class="d-flex align-items-center justify-content-between">
-                            <p class="card-text mb-0">${img.email_utente || "utente non caricato"}</p>
+                            <p class="card-text mb-0">${(img.email_utente || "utente non caricato").split("@")[0]}</p>
                             <button type="button" class="button-link">segui</button>
                         </div>
                         <p class="card-text">📍 ${img.luogo || ""}</p>
