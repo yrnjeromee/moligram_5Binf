@@ -15,8 +15,10 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #070707;
+    background-color: #0f0f0f;
+    padding-top: 150px;
 }
+
 
 html {
     margin: 0;
@@ -32,7 +34,6 @@ html {
     font-size: 80px;
     font-weight: 900;
     text-align: center;
-    text-shadow: 1px 1px var(--input-focus);
     letter-spacing: 2px;
     margin: 0;
     position: fixed;
@@ -40,10 +41,28 @@ html {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 15px 30px;
+    border-radius: 12px;
     color: #fff;
+    background: linear-gradient(135deg, #ff0000, #0000ff);  /* (135deg, #6e00ff, #9b00e8) */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    animation: fadeSlideIn 1s ease-out;
 }
+
+/* Animazione di comparsa */
+@keyframes fadeSlideIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+
 
 .titolo-home {
     font-size: 60px;
@@ -184,10 +203,9 @@ html {
     justify-content: center;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    background: #262626;
+    background: #1a1a1a;
     gap: 20px;
     border-radius: 5px;
-    border: 2px solid var(--main-color);
     box-shadow: 4px 4px #3c3c3c;
 }
 
@@ -224,6 +242,7 @@ html {
     color: var(--font-color);
     padding: 5px 10px;
     outline: none;
+    /* background-color: #959595; */
 }
 
 .flip-card__input::placeholder {
@@ -540,13 +559,29 @@ html {
     padding: 10px 10px;
     border: 2px solid #4a90e2;
     border-radius: 12px;
-    background-color: #f0f8ff;
+    background-color: #202020;
     max-width: fit-content;
     font-family: Arial, sans-serif;
     font-size: 16px;
-    color: #333;
+    color: #fff;
     margin: 10px auto;
     box-shadow: 0 2px 5px rgba(74, 144, 226, 0.3);
     text-align: center;
     display: block;
+}
+
+.btn-elimina {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    margin-left: 85px;
+}
+
+.btn-elimina:hover {
+    background-color: #c82333;
 }
